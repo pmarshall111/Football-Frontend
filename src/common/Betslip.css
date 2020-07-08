@@ -1,0 +1,22 @@
+.body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0px;
+}
+
+.grid3col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid3col *, .matchup {
+    border: 1px solid black;
+    margin: 0;
+}
+
+.moneyBox {
+    padding-top: 10px;
+    grid-column: 1 / span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

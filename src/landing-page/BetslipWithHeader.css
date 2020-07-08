@@ -1,0 +1,21 @@
+.header h5 {
+    text-align: center;
+    margin: 0.5vh 0;
+}
+
+.header {
+    position: relative;
+}
+
+.header p {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translate(-50%, -50%);
+    user-select: none;
+}
+
+.bet-card {
+    border: 2px solid black;
+    border-radius: 10px;
+}

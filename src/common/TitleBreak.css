@@ -1,0 +1,6 @@
+.title-break {
+    width: 100%;
+    height: 30vh;
+    display: grid;
+    place-items: center;
+}

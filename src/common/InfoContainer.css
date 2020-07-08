@@ -1,0 +1,6 @@
+.info-container {
+    padding: 20px;
+    display: grid;
+    place-items: center;
+    height: 100vh
+}
