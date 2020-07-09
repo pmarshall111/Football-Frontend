@@ -1,4 +1,6 @@
 import React from 'react';
+import LineChart from "./LineChart";
+import DateSlider from "./DateSlider";
 
 const PerformancePage = (props: any) => {
     const betHistory = [
@@ -83,30 +85,6 @@ const PerformancePage = (props: any) => {
             stake: 3.5
         }
     ];
-    const chartOptions = {
-        chart: {
-            type: 'line',
-            height: 350
-        },
-        stroke: {
-            curve: 'stepline',
-        },
-        dataLabels: {
-            enabled: false
-        },
-        title: {
-            text: 'Stepline Chart',
-                align: 'left'
-        },
-        markers: {
-            hover: {
-                sizeOffset: 4
-            }
-        },
-        xaxis: {
-            type: "datetime"
-        }
-    };
     let profit = 0;
     const series = betHistory.map(x => {
         const {result, betOn, stake, odds} = x;
@@ -118,7 +96,9 @@ const PerformancePage = (props: any) => {
         return {"x": x.date.toString(), "y": profit};
     });
     return (
-        <div id={"chart"}>
+        <div>
+            <h3>Date slider</h3>
+            <DateSlider />
         </div>
     );
 }
