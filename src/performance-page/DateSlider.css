@@ -1,0 +1,12 @@
+.track-selected, .track {
+    stroke-width: 10px;
+    stroke-linecap: round;
+}
+
+.track {
+    stroke: lightgray;
+}
+
+.track-selected {
+    stroke: #61dafb;
+}

@@ -2,6 +2,8 @@ import React from "react";
 // @ts-ignore
 import * as d3 from "d3";
 
+import "./DateSlider.css";
+
 const betHistory = [
     {
         date: new Date(2019,7,1),
@@ -100,10 +102,13 @@ class DateSlider extends React.Component {
     private xScale: any;
     private slider: any;
     private sliderLine: any;
+    private selectedLine: any;
     private startHandle: any;
     private endHandle: any;
     private closestHandle: any;
     private rect: any;
+    private startDate: any;
+    private endDate: any;
 
     componentDidMount() {
         const margin = {top:0, right:50, bottom:0, left:50},
@@ -129,6 +134,12 @@ class DateSlider extends React.Component {
             .attr("x1", 0)
             .attr("x2", width);
 
+        //adding line between 2 circles
+        this.selectedLine = this.slider.append("line")
+            .attr("class", "track-selected")
+            .attr("x1", 0)
+            .attr("x2", width);
+
         let radius = 10;
         this.startHandle = this.slider.append("circle")
             .attr("class", "handle")
@@ -136,11 +147,30 @@ class DateSlider extends React.Component {
             .attr("fill", "black")
             .attr("cx", 0);
 
+        this.startDate = this.slider.append("text")
+            .text(d3.timeFormat("%a %e %b %Y")(series[0].x))
+            .attr("x", 0)
+            .attr("y", -20)
+            .attr("fill", "black")
+            .attr("font-size", "10px")
+            .attr("text-anchor", "middle");
+
         this.endHandle = this.slider.append("circle")
             .attr("class", "handle")
             .attr("r", radius)
             .attr("fill", "black")
             .attr("cx", width);
+
+        this.endDate = this.slider.append("text")
+            .text(d3.timeFormat("%a %e %b %Y")(new Date()))
+            .attr("x", width)
+            .attr("y", 30)
+            .attr("fill", "black")
+            .attr("font-size", "10px")
+            .attr("text-anchor", "middle");
+
+        this.endHandle.append("text")
+            .text(d3.timeFormat("%a %e %b %Y")(new Date()));
 
         this.rect = this.svg.append("rect")
             .attr("x", margin.left-radius)
@@ -165,7 +195,6 @@ class DateSlider extends React.Component {
                 let diffStart = Math.abs(x - classThis.startHandle.attr("cx"));
                 let diffEnd = Math.abs(x - classThis.endHandle.attr("cx"));
                 classThis.closestHandle = diffStart <= diffEnd ? classThis.startHandle : classThis.endHandle;
-                console.log(classThis.closestHandle);
             }
         }
 
@@ -179,8 +208,12 @@ class DateSlider extends React.Component {
                 xOnSvg = Math.min(width, xOnSvg);
                 if (classThis.closestHandle === classThis.startHandle) {
                     xOnSvg = Math.min(+classThis.endHandle.attr("cx")-20, xOnSvg);
+                    classThis.startDate.attr("x", xOnSvg);
+                    classThis.selectedLine.attr("x1", xOnSvg);
                 } else {
                     xOnSvg = Math.max(+classThis.startHandle.attr("cx")+20, xOnSvg);
+                    classThis.endDate.attr("x", xOnSvg);
+                    classThis.selectedLine.attr("x2", xOnSvg);
                 }
                 classThis.closestHandle.attr("cx", xOnSvg);
             }
