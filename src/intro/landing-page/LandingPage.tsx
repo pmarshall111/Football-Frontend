@@ -1,6 +1,6 @@
 import React from 'react';
-import InfoContainer from "../common/InfoContainer";
-import FancyBackground from "../common/FancyBackground";
+import InfoContainer from "../../common/InfoContainer";
+import FancyBackground from "../../common/FancyBackground";
 import RisingBetslips from "./RisingBetslips";
 import TitleLayout from "./TitleLayout";
 

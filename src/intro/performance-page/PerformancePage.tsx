@@ -1,6 +1,7 @@
 import React from 'react';
 import LineChart from "./LineChart";
 import DateSlider from "./DateSlider";
+import BetDisplay from "./BetDisplay";
 
 const PerformancePage = (props: any) => {
     const betHistory = [
@@ -99,6 +100,9 @@ const PerformancePage = (props: any) => {
         <div>
             <h3>Date slider</h3>
             <DateSlider />
+            <div style={{"width": "50%", "height": "50vh"}}>
+                <BetDisplay />
+            </div>
         </div>
     );
 }

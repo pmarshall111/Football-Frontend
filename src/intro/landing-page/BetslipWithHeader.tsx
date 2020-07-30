@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Card from "react-bootstrap/Card";
-import {Betslip, BetslipProps} from "../common/Betslip";
+import {Betslip, BetslipProps} from "../../common/Betslip";
 
 import "./BetslipWithHeader.css"
 
