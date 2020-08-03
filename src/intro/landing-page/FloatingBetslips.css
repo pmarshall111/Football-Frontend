@@ -1,0 +1,37 @@
+.floating-container {
+    position: absolute;
+    z-index: -1;
+    height: 75vh;
+    width: 100vw;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.floating-slip {
+    width: 75vw
+}
+
+.floating-slip-0 {
+    transform: translateX(-50px) rotate(-5deg);
+}
+
+.floating-slip-1 {
+    transform: translateX(0px) rotate(-5deg);
+}
+
+.floating-slip-2 {
+    transform: translateX(50px) rotate(-5deg);
+}
+
+@media only screen and (min-width: 600px) {
+    .floating-slip {
+        width: 33vw;
+    }
+
+    .floating-container {
+        width: 50vw;
+    }
+}

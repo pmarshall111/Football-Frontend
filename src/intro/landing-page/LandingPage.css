@@ -1,10 +1,10 @@
 .landing {
-    height: 200vh;
+    height: 100vh;
+    position: relative;
 }
 
 @media only screen and (min-width: 600px) {
     .landing {
-        height: 100vh;
         display: grid;
         grid-template-columns: 1fr 1fr;
     }

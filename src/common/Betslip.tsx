@@ -18,6 +18,7 @@ export const Betslip = (props: BetslipProps) => {
     const [homeTeam, awayTeam] = teams;
     const [homeOdds, drawOdds, awayOdds] = odds;
     const toReturn = (stake*odds[betOn]).toFixed(2);
+    const stakeStr = stake.toFixed(2);
     return (
         <Card.Body className={"body"}>
             <h5>{date}</h5>
@@ -33,7 +34,7 @@ export const Betslip = (props: BetslipProps) => {
                 <h5>{awayOdds}</h5>
             </div>
             <div className={"moneyBox"}>
-                <h5>Stake: £{stake}</h5>
+                <h5>Stake: £{stakeStr}</h5>
                 <h5>To return: £{toReturn}</h5>
             </div>
         </Card.Body>

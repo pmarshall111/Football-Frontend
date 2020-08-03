@@ -2,7 +2,9 @@ import React from 'react';
 import Card from 'react-bootstrap/Card'
 import BetslipWithHeader from "./BetslipWithHeader";
 
-const RisingBetslips = (props:any) => {
+import "./FloatingBetslips.css"
+
+const FloatingBetslips = (props:any) => {
     const slips = [
         {
             date: new Date().toDateString(),
@@ -29,17 +31,19 @@ const RisingBetslips = (props:any) => {
             stake: 3.5
         }
     ];
-    let jsxSlips = slips.map(x => {
+    let jsxSlips = slips.map((x: any, i:number) => {
         const {date, teams, odds, betOn, result, stake} = x;
         return (
-            <BetslipWithHeader date={date} teams={teams} odds={odds} betOn={betOn} result={result} stake={stake} />
-        )
+            <div className={"floating-slip floating-slip-"+i}>
+                <BetslipWithHeader date={date} teams={teams} odds={odds} betOn={betOn} result={result} stake={stake} />
+            </div>
+    )
     });
     return (
-        <div>
+        <div className={"floating-container"}>
             {jsxSlips}
         </div>
     );
 }
 
-export default RisingBetslips;
+export default FloatingBetslips;
