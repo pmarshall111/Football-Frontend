@@ -5,11 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LandingPage from "./intro/landing-page/LandingPage";
 import RisingBetslips from "./intro/landing-page/RisingBetslips";
 import PerformancePage from "./intro/performance-page/PerformancePage";
+import PieChart from "./common/PieChart";
 
 function App() {
   return (
     <div className="App">
-      <PerformancePage />
+        <p>Hello world</p>
+      <PieChart />
     </div>
   );
 }
