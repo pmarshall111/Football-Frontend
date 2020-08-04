@@ -1,7 +1,8 @@
 import React from 'react';
 import LineChart from "./LineChart";
-import DateSlider from "./DateSlider";
 import BetDisplay from "./BetDisplay";
+
+import "./PerformancePage.css"
 
 const PerformancePage = (props: any) => {
     const betHistory = [
@@ -98,14 +99,25 @@ const PerformancePage = (props: any) => {
     });
     return (
         <div>
-            <div>
+            <div className={"perf-filters"}>
                 <h5>Filters</h5>
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
                     <g fill="#626262"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 2h-1v5h1V2zm6.1 5H6.4L6 6.45v-1L6.4 5h3.2l.4.5v1l-.4.5zm-5 3H1.4L1 9.5v-1l.4-.5h3.2l.4.5v1l-.4.5zm3.9-8h-1v2h1V2zm-1 6h1v6h-1V8zm-4 3h-1v3h1v-3zm7.9 0h3.19l.4-.5v-.95l-.4-.5H11.4l-.4.5v.95l.4.5zm2.1-9h-1v6h1V2zm-1 10h1v2h-1v-2z"/></g>
                 </svg>
             </div>
-            <div style={{"width": "50%", "height": "50vh"}}>
-                <BetDisplay />
+            <div className={"perf-info"}>
+                <div>
+                    <h5>Profit: £69</h5>
+                    <div className={"perf-chart"}>
+                        <LineChart />
+                    </div>
+                </div>
+                <div>
+                    <h5>Total Bets: 60 (1.1/week AVG)</h5>
+                    <div className={"perf-chart perf-table"}>
+                        <BetDisplay />
+                    </div>
+                </div>
             </div>
         </div>
     );

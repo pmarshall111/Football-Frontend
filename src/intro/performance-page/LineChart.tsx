@@ -121,7 +121,8 @@ class LineChart extends React.Component {
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
+                "translate(" + margin.left + "," + margin.top + ")")
+            .attr("viewBox", "0 0 100 100");
 
         //axes
         this.xScale = d3.scaleTime()

@@ -7,6 +7,7 @@ import FloatingBetslips from "./intro/landing-page/FloatingBetslips";
 import PerformancePage from "./intro/performance-page/PerformancePage";
 import PieChart from "./common/PieChart";
 import Filters from "./intro/performance-page/Filters";
+import FaqPage from "./intro/faq-page/FaqPage";
 
 function App() {
   return (
