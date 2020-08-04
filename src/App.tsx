@@ -6,11 +6,12 @@ import LandingPage from "./intro/landing-page/LandingPage";
 import FloatingBetslips from "./intro/landing-page/FloatingBetslips";
 import PerformancePage from "./intro/performance-page/PerformancePage";
 import PieChart from "./common/PieChart";
+import Filters from "./intro/performance-page/Filters";
 
 function App() {
   return (
     <div className="App">
-        <LandingPage />
+        <PerformancePage />
     </div>
   );
 }
