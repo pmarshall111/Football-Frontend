@@ -12,11 +12,12 @@ import TitleBreak from "./common/TitleBreak";
 import NavbarComponent from "./common/NavbarComponent";
 import ManualSignUp from "./dashboard/sign-in-popup/ManualSignUp";
 import SigninPopup from "./dashboard/sign-in-popup/SigninPopup";
+import YourStats from "./dashboard/account-page/YourStats";
 
 function App() {
   return (
     <div className="App">
-        <SigninPopup />
+        <YourStats />
     </div>
   );
 }

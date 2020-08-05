@@ -1,0 +1,9 @@
+.team {
+    display: flex;
+    justify-content: space-between;
+    width: 100%
+}
+
+.team > * {
+    padding: 2px 5px;
+}
