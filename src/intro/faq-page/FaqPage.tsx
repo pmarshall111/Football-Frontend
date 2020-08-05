@@ -1,8 +1,10 @@
 import React from 'react';
 import QuestionsDisplay from "./QuestionsDisplay";
 
+import "./FaqPage.css"
+
 const FaqPage = (props: any) => (
-    <section>
+    <section className={"faq-page"}>
         <QuestionsDisplay />
     </section>
 );

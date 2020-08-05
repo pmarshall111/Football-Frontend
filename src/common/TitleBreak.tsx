@@ -1,5 +1,7 @@
 import React from 'react';
 
+import "./TitleBreak.css"
+
 type TitleBreakProps = {
     title: string
 }

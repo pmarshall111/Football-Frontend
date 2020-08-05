@@ -8,11 +8,15 @@ import PerformancePage from "./intro/performance-page/PerformancePage";
 import PieChart from "./common/PieChart";
 import Filters from "./intro/performance-page/Filters";
 import FaqPage from "./intro/faq-page/FaqPage";
+import TitleBreak from "./common/TitleBreak";
+import NavbarComponent from "./common/NavbarComponent";
+import ManualSignUp from "./dashboard/sign-in-popup/ManualSignUp";
+import SigninPopup from "./dashboard/sign-in-popup/SigninPopup";
 
 function App() {
   return (
     <div className="App">
-        <PerformancePage />
+        <SigninPopup />
     </div>
   );
 }

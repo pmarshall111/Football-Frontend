@@ -18,7 +18,7 @@ const QuestionsDisplay = (props: any) => {
         )
     })
     return (
-        <Accordion>
+        <Accordion defaultActiveKey={"0"}>
             {faqSections}
         </Accordion>
     );
