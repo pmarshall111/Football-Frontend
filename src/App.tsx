@@ -13,11 +13,13 @@ import NavbarComponent from "./common/NavbarComponent";
 import ManualSignUp from "./dashboard/sign-in-popup/ManualSignUp";
 import SigninPopup from "./dashboard/sign-in-popup/SigninPopup";
 import YourStats from "./dashboard/account-page/YourStats";
+import GoodBets from "./dashboard/recommendations-page/GoodBets";
+import Dashboard from "./dashboard/Dashboard";
 
 function App() {
   return (
     <div className="App">
-        <YourStats />
+        <Dashboard />
     </div>
   );
 }

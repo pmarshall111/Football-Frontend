@@ -1,0 +1,27 @@
+.dash-nav {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    border-right: 2px solid crimson;
+    position: relative;
+}
+
+.nav-title {
+    grid-column: 1 / span 4;
+}
+
+a {
+    grid-column: 2 / span 3;
+    text-align: left;
+}
+
+.dash-nav-collapse {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 3vw;
+    width: 3vw;
+    min-height: 40px;
+    min-width: 40px;
+    background: red;
+    transform: translateX(100%);
+}
