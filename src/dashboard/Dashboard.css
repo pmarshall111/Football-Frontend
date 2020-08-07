@@ -2,3 +2,7 @@
     display: grid;
     grid-template-columns: 25% 75%;
 }
+
+.dash-container.sidebar-hidden {
+    grid-template-columns: 0.1% 99.9%;
+}

@@ -6,6 +6,14 @@
     min-height: 80vh;
 }
 
+.dash-nav-hide {
+    transform: translateX(-100%);
+}
+
+.dash-nav-hide *:not(div) {
+    opacity: 0;
+}
+
 .nav-title {
     grid-column: 1 / span 4;
 }
@@ -25,4 +33,8 @@ a {
     min-width: 40px;
     background: red;
     transform: translateX(100%);
+}
+
+.nav-selected {
+    background: #61dafb;
 }

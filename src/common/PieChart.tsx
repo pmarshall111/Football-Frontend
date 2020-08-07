@@ -173,7 +173,7 @@ class PieChart extends React.Component {
                 .data(this.pie(resultsBetOn));
 
             // Update existing arcs
-            path.transition().duration(200).attrTween("d", this.arcTween);
+            path.transition().duration(0).attrTween("d", (a: any) => this.arcTween(a));
 
             // Enter new arcs
             path.enter().append("path")
