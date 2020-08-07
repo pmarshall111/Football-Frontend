@@ -17,6 +17,7 @@ import SigninPopup from "./dashboard/sign-in-popup/SigninPopup";
 import YourStats from "./dashboard/account-page/YourStats";
 import GoodBets from "./dashboard/recommendations-page/GoodBets";
 import Dashboard from "./dashboard/Dashboard";
+import Intro from "./intro/Intro";
 
 function App() {
     return (
@@ -25,7 +26,7 @@ function App() {
                 <NavbarComponent />
                 <Switch>
                     <Route exact path={"/"}>
-                        <LandingPage />
+                        <Intro />
                     </Route>
                     <Route path={"/dashboard"}>
                         <Dashboard />

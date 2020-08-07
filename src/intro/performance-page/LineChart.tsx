@@ -2,100 +2,16 @@ import React, {useEffect} from 'react';
 // @ts-ignore
 import * as d3 from "d3";
 
-const betHistory = [
-    {
-        date: new Date(2019,7,1),
-        teams: ["Liverpool", "Man City"],
-        odds: [2.45,3.2,4.7],
-        betOn: 0,
-        result: 0,
-        stake: 5
-    },
-    {
-        date: new Date(2019,8,30),
-        teams: ["Southampton", "Leicester"],
-        odds: [5.1,4.1,2.2],
-        betOn: 0,
-        result: 0,
-        stake: 15.5
-    },
-    {
-        date: new Date(2019,9,3),
-        teams: ["Man United", "Burnley"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2019,10,13),
-        teams: ["Anzhi", "CSKA Moscow"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2019,11,22),
-        teams: ["Barcelona", "Atletico Madrid"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,0,5),
-        teams: ["PSG", "OSC Lille"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,1,23),
-        teams: ["Dortmund", "Hertha Berlin"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,2,30),
-        teams: ["Juventus", "Inter"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,3,17),
-        teams: ["Birmingham", "Swansea"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,4,20),
-        teams: ["Leganes", "Eibar"],
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    }
-];
-let profit = 0;
-const series = betHistory.map(x => {
-    const {result, betOn, stake, odds} = x;
-    if (result == betOn) {
-        profit += stake*odds[betOn];
-    } else {
-        profit -= stake;
-    }
-    return {"x": x.date, "y": profit};
-});
+interface ILineChartProps {
+    data: {
+        x: Date,
+        y: number
+    }[],
+    updateCurr?: object,
+    currMatch: {idx: number, from: string}
+}
 
-class LineChart extends React.Component {
+class LineChart extends React.Component<ILineChartProps> {
     //TODO: add shading under line.
 
     private svg: any;
@@ -108,11 +24,16 @@ class LineChart extends React.Component {
     private tooltipXLine: any;
     private tooltipYLine: any;
 
+    constructor(props: any) {
+        super(props);
+    }
 
     componentDidMount(): void {
         const margin = {top: 10, right: 30, bottom: 30, left: 60},
             width = 460 - margin.left - margin.right,
             height = 400 - margin.top - margin.bottom;
+
+        const {data, currMatch} = this.props;
 
         //creating chart
         this.svg = d3.select("#d3-line-chart")
@@ -126,7 +47,7 @@ class LineChart extends React.Component {
 
         //axes
         this.xScale = d3.scaleTime()
-            .domain([series[0].x, new Date()])
+            .domain([data[0].x, new Date()])
             .range([0, width])
 
         this.xAxis = this.svg.append("g")
@@ -134,7 +55,7 @@ class LineChart extends React.Component {
             .call(d3.axisBottom(this.xScale));
 
         this.yScale = d3.scaleLinear()
-            .domain([0,series[series.length-1].y])
+            .domain([0,data[data.length-1].y])
             .range([height, 0]);
 
         this.yAxis = this.svg.append("g")
@@ -159,9 +80,21 @@ class LineChart extends React.Component {
             .attr("stroke-width", 1)
             .attr("stroke-dasharray", "5,5");
 
+        //setting tooltip to the current point in the series
+        let xPoint = this.xScale(data[currMatch.idx].x);
+        let yPoint = this.yScale(data[currMatch.idx].y);
+
+        this.tooltipYLine
+            .attr("x1", xPoint)
+            .attr("x2", xPoint);
+
+        this.tooltipXLine
+            .attr("y1", yPoint)
+            .attr("y2", yPoint);
+
         //creating the step graph
         let stepPath = `M 0 ${height} `;
-        series.forEach(s => {
+        data.forEach(s => {
             stepPath += "H " + this.xScale(s.x) + " ";
             stepPath += "V " + this.yScale(s.y) + " ";
         })
@@ -187,15 +120,21 @@ class LineChart extends React.Component {
                 // @ts-ignore
                 let [x, y] = d3.mouse(this);
                 let mouseDate = classThis.xScale.invert(x);
-                let closestPoint = series[0];
-                for (let i = 0; i < series.length - 1; i++) {
-                    if (series[i].x < mouseDate && series[i + 1].x >= mouseDate) {
-                        let distBefore = Math.abs(series[i].x.getTime() - mouseDate.getTime());
-                        let distAfter = Math.abs(series[i + 1].x.getTime() - mouseDate.getTime());
-                        closestPoint = distBefore <= distAfter ? series[i] : series[i + 1];
+                let closestIndex = 0;
+                for (let i = 0; i < data.length - 1; i++) {
+                    if (data[i].x < mouseDate && data[i + 1].x >= mouseDate) {
+                        let distBefore = Math.abs(data[i].x.getTime() - mouseDate.getTime());
+                        let distAfter = Math.abs(data[i + 1].x.getTime() - mouseDate.getTime());
+                        closestIndex = distBefore <= distAfter ? i : i+1;
                         break;
                     }
                 }
+
+                if (classThis.props.updateCurr) {
+                    classThis.props.updateCurr({idx: closestIndex, from: "line"});
+                }
+
+                let closestPoint = data[closestIndex];
 
                 let xPoint = classThis.xScale(closestPoint.x);
                 let yPoint = classThis.yScale(closestPoint.y);
@@ -214,6 +153,18 @@ class LineChart extends React.Component {
     componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<{}>, snapshot?: any): void {
         //need to get rid of old line. later can add in some nice animation
         //then add new line.
+        const {data, currMatch} = this.props;
+
+        let xPoint = this.xScale(data[currMatch.idx].x);
+        let yPoint = this.yScale(data[currMatch.idx].y);
+
+        this.tooltipYLine
+            .attr("x1", xPoint)
+            .attr("x2", xPoint);
+
+        this.tooltipXLine
+            .attr("y1", yPoint)
+            .attr("y2", yPoint);
     }
 
     render() {

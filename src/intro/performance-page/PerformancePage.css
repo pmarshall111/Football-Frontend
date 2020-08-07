@@ -1,10 +1,28 @@
-.perf-filters {
+.perf-filter-btn {
     display: flex;
     justify-content: flex-end;
 }
 
-.perf-filters > * {
+.perf-filter-btn > * {
     margin: 5px
+}
+
+/*
+ * Hiding and not allowing filters to be changed when not shown
+ */
+
+.perf-filters.show {
+    max-height: 999em;
+    opacity: 1;
+}
+
+.perf-filters {
+    max-height: 0;
+    opacity: 0;
+}
+
+.perf-filters:not(.show) * {
+    pointer-events: none !important;
 }
 
 .perf-info {
@@ -12,6 +30,8 @@
     grid-template-columns: 100%;
     place-items: center;
 }
+
+/**/
 
 .perf-info > div {
     display: grid;
