@@ -4,9 +4,9 @@ import {Betslip} from "../../common/Betslip";
 import "./BetDisplay.css";
 
 const BetDisplay = (props: any) => {
-    const {data, currMatch, updateCurr} = props;
+    const {data, currMatch, updateMatch} = props;
     const bets = data.map((x:any, idx:number) =>
-        <div onMouseEnter={() => updateCurr({idx, from:"bets"})} id={`betslip-${idx}`}>
+        <div onMouseEnter={() => updateMatch({idx, from:"bets"})} id={`betslip-${idx}`}>
             <Betslip date={x.date.toDateString()} teams={x.teams} odds={x.odds} betOn={x.betOn} result={x.result} stake={x.stake} />
         </div>);
 

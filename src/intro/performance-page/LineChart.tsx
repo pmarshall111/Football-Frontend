@@ -7,7 +7,7 @@ interface ILineChartProps {
         x: Date,
         y: number
     }[],
-    updateCurr?: object,
+    updateMatch?: object,
     currMatch: {idx: number, from: string}
 }
 
@@ -15,6 +15,8 @@ class LineChart extends React.Component<ILineChartProps> {
     //TODO: add shading under line.
 
     private svg: any;
+    private height: any;
+    private width: any;
     private xAxis: any;
     private xScale: any;
     private yAxis: any;
@@ -29,17 +31,18 @@ class LineChart extends React.Component<ILineChartProps> {
     }
 
     componentDidMount(): void {
-        const margin = {top: 10, right: 30, bottom: 30, left: 60},
-            width = 460 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
+        const margin = {top: 10, right: 30, bottom: 30, left: 60};
+
+        this.width = 460 - margin.left - margin.right;
+        this.height = 400 - margin.top - margin.bottom;
 
         const {data, currMatch} = this.props;
 
         //creating chart
         this.svg = d3.select("#d3-line-chart")
             .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", this.width + margin.left + margin.right)
+            .attr("height", this.height + margin.top + margin.bottom)
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")")
@@ -48,15 +51,15 @@ class LineChart extends React.Component<ILineChartProps> {
         //axes
         this.xScale = d3.scaleTime()
             .domain([data[0].x, new Date()])
-            .range([0, width])
+            .range([0, this.width])
 
         this.xAxis = this.svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
+            .attr("transform", "translate(0," + this.height + ")")
             .call(d3.axisBottom(this.xScale));
 
         this.yScale = d3.scaleLinear()
             .domain([0,data[data.length-1].y])
-            .range([height, 0]);
+            .range([this.height, 0]);
 
         this.yAxis = this.svg.append("g")
             .call(d3.axisLeft(this.yScale));
@@ -65,7 +68,7 @@ class LineChart extends React.Component<ILineChartProps> {
         this.tooltipXLine = this.svg.append("line")
             .attr("x1", 0)
             .attr("y1", 0)
-            .attr("x2", width)
+            .attr("x2", this.width)
             .attr("y2", 0)
             .attr("stroke", "black")
             .attr("stroke-width", 1)
@@ -75,7 +78,7 @@ class LineChart extends React.Component<ILineChartProps> {
             .attr("x1", 0)
             .attr("y1", 0)
             .attr("x2", 0)
-            .attr("y2", height)
+            .attr("y2", this.height)
             .attr("stroke", "black")
             .attr("stroke-width", 1)
             .attr("stroke-dasharray", "5,5");
@@ -93,11 +96,12 @@ class LineChart extends React.Component<ILineChartProps> {
             .attr("y2", yPoint);
 
         //creating the step graph
-        let stepPath = `M 0 ${height} `;
+        let stepPath = `M 0 ${this.height} `;
         data.forEach(s => {
             stepPath += "H " + this.xScale(s.x) + " ";
             stepPath += "V " + this.yScale(s.y) + " ";
         })
+        stepPath+="H " + this.width;
 
         this.line = this.svg.append("path")
             .attr("d", stepPath)
@@ -110,13 +114,14 @@ class LineChart extends React.Component<ILineChartProps> {
             .append('rect')
             .style("fill", "none")
             .style("pointer-events", "all")
-            .attr('width', width)
-            .attr('height', height);
+            .attr('width', this.width)
+            .attr('height', this.height);
 
         this.rect.on('mousemove', onMouseMove(this));
 
         function onMouseMove(classThis: any) {
             return function () {
+                const {data} = classThis.props;
                 // @ts-ignore
                 let [x, y] = d3.mouse(this);
                 let mouseDate = classThis.xScale.invert(x);
@@ -130,8 +135,8 @@ class LineChart extends React.Component<ILineChartProps> {
                     }
                 }
 
-                if (classThis.props.updateCurr) {
-                    classThis.props.updateCurr({idx: closestIndex, from: "line"});
+                if (classThis.props.updateMatch) {
+                    classThis.props.updateMatch({idx: closestIndex, from: "line"});
                 }
 
                 let closestPoint = data[closestIndex];
@@ -165,6 +170,15 @@ class LineChart extends React.Component<ILineChartProps> {
         this.tooltipXLine
             .attr("y1", yPoint)
             .attr("y2", yPoint);
+
+        //updating the step graph
+        let stepPath = `M 0 ${this.height} `;
+        data.forEach(s => {
+            stepPath += "H " + this.xScale(s.x) + " ";
+            stepPath += "V " + this.yScale(s.y) + " ";
+        })
+        stepPath+="H " + this.width;
+        this.line.attr("d", stepPath);
     }
 
     render() {
