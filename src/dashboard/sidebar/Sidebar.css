@@ -3,6 +3,7 @@
     grid-template-columns: 25% 25% 25% 25%;
     border-right: 2px solid crimson;
     position: relative;
+    min-height: 80vh;
 }
 
 .nav-title {

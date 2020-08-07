@@ -1,4 +1,6 @@
 import React from 'react';
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,11 +19,21 @@ import GoodBets from "./dashboard/recommendations-page/GoodBets";
 import Dashboard from "./dashboard/Dashboard";
 
 function App() {
-  return (
-    <div className="App">
-        <Dashboard />
-    </div>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <NavbarComponent />
+                <Switch>
+                    <Route exact path={"/"}>
+                        <LandingPage />
+                    </Route>
+                    <Route path={"/dashboard"}>
+                        <Dashboard />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+);
 }
 
 export default App;
