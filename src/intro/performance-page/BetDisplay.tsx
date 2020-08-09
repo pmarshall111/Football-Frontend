@@ -7,7 +7,7 @@ const BetDisplay = (props: any) => {
     const {data, currMatch, updateMatch} = props;
     const bets = data.map((x:any, idx:number) =>
         <div onMouseEnter={() => updateMatch({idx, from:"bets"})} id={`betslip-${idx}`}>
-            <Betslip date={x.date.toDateString()} teams={x.teams} odds={x.odds} betOn={x.betOn} result={x.result} stake={x.stake} />
+            <Betslip date={x.date.toDateString()} teams={x.teams} odds={x.odds} betOn={x.betOn} result={x.result} stake={x.stake} backgroundColour={currMatch.idx == idx ? "green" : ""} />
         </div>);
 
     const betToShow = document.querySelector(`#betslip-${currMatch.idx}`);
