@@ -100,7 +100,7 @@ const betHistory = [
 
 const PerformancePage = (props: any) => {
     const [showFilters, setShowFilters] = useState(false);
-    const [currDates, setCurrDates] = useState({startDate: betHistory[0].date, endDate: betHistory[betHistory.length-1].date});
+    const [currDates, setCurrDates] = useState({startDate: betHistory[0].date, endDate: new Date()});
     const [currLeagues, setCurrLeagues] = useState({"EPL": true, "Bundesliga": true, "La Liga": true, "Ligue 1": true, "Russia": true, "Serie A": true});
     const dateExtremes = {startDate: betHistory[0].date, endDate: betHistory[betHistory.length-1].date};
 
@@ -111,15 +111,15 @@ const PerformancePage = (props: any) => {
         const isGoodLeague = currLeagues[league];
         return isGoodDate && isGoodLeague;
     })
-    let profit = 0;
     const series = betsToShow.map(x => {
         const {result, betOn, stake, odds} = x;
+        let winLoss = 0;
         if (result == betOn) {
-            profit += stake*odds[betOn];
+            winLoss = stake*odds[betOn];
         } else {
-            profit -= stake;
+            winLoss = stake;
         }
-        return {"x": x.date, "y": profit};
+        return {date: x.date, winLoss };
     });
     const [currMatch, setCurrMatch] = useState({idx: Math.max(0,series.length-1), from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
     updateCurrMatchIndexIfOutOfRange(currMatch, setCurrMatch, series);
@@ -143,7 +143,7 @@ const PerformancePage = (props: any) => {
                 <div>
                     <h5>Profit: £69</h5>
                     <div className={"perf-chart"}>
-                        <LineChart data={series} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)} />
+                        <LineChart data={series} currDates={currDates} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)} />
                     </div>
                 </div>
                 <div>
