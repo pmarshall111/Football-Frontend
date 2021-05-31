@@ -173,7 +173,7 @@ class DateSlider extends React.Component<IDateSlider> {
             case "Aug":
                 monthNumb = 7;
                 break;
-            case "Sept":
+            case "Sep":
                 monthNumb = 8;
                 break;
             case "Oct":

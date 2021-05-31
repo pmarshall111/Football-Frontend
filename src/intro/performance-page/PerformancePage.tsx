@@ -121,10 +121,9 @@ const PerformancePage = (props: any) => {
         }
         return {"x": x.date, "y": profit};
     });
-    const [currMatch, setCurrMatch] = useState({idx: series.length-1, from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
-    if (currMatch.idx > series.length-1) {
-        setCurrMatch({idx: series.length-1, from: "line"});
-    }
+    const [currMatch, setCurrMatch] = useState({idx: Math.max(0,series.length-1), from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
+    updateCurrMatchIndexIfOutOfRange(currMatch, setCurrMatch, series);
+
     return (
         <div>
             <div className={"perf-filter-btn"} onClick={() => setShowFilters(!showFilters)}>
@@ -156,6 +155,17 @@ const PerformancePage = (props: any) => {
             </div>
         </div>
     );
+}
+
+const updateCurrMatchIndexIfOutOfRange = (currMatch: {idx: number, from: String}, setCurrMatch: Function, series: any[]) => {
+    if (currMatch.idx == 0) {
+        return; //if idx = 0 it will always be in range
+    }
+    else if (currMatch.idx > series.length-1) {
+        setCurrMatch({idx: series.length-1, from: currMatch.from});
+    } else if (currMatch.idx < 0) {
+        setCurrMatch({idx:0, from: currMatch.from})
+    }
 }
 
 export default PerformancePage;

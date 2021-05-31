@@ -12,8 +12,6 @@ interface ILineChartProps {
 }
 
 class LineChart extends React.Component<ILineChartProps> {
-    //TODO: add shading under line.
-
     private svg: any;
     private height: any;
     private width: any;
@@ -119,38 +117,40 @@ class LineChart extends React.Component<ILineChartProps> {
 
         this.rect.on('mousemove', onMouseMove(this));
 
-        function onMouseMove(classThis: any) {
+        function onMouseMove(classThis: any) { //passing the this from the class in to access the event this and also the class this.
             return function () {
                 const {data} = classThis.props;
-                // @ts-ignore
-                let [x, y] = d3.mouse(this);
-                let mouseDate = classThis.xScale.invert(x);
-                let closestIndex = 0;
-                for (let i = 0; i < data.length - 1; i++) {
-                    if (data[i].x < mouseDate && data[i + 1].x >= mouseDate) {
-                        let distBefore = Math.abs(data[i].x.getTime() - mouseDate.getTime());
-                        let distAfter = Math.abs(data[i + 1].x.getTime() - mouseDate.getTime());
-                        closestIndex = distBefore <= distAfter ? i : i+1;
-                        break;
+                if (data.length > 0) { //if there's no data in the line graph we don't need to update the tooltip.
+                    // @ts-ignore
+                    let [x, y] = d3.mouse(this);
+                    let mouseDate = classThis.xScale.invert(x);
+                    let closestIndex = 0;
+                    for (let i = 0; i < data.length - 1; i++) {
+                        if (data[i].x < mouseDate && data[i + 1].x >= mouseDate) {
+                            let distBefore = Math.abs(data[i].x.getTime() - mouseDate.getTime());
+                            let distAfter = Math.abs(data[i + 1].x.getTime() - mouseDate.getTime());
+                            closestIndex = distBefore <= distAfter ? i : i + 1;
+                            break;
+                        }
                     }
+
+                    if (classThis.props.updateMatch) {
+                        classThis.props.updateMatch({idx: closestIndex, from: "line"});
+                    }
+
+                    let closestPoint = data[closestIndex];
+
+                    let xPoint = classThis.xScale(closestPoint.x);
+                    let yPoint = classThis.yScale(closestPoint.y);
+
+                    classThis.tooltipYLine
+                        .attr("x1", xPoint)
+                        .attr("x2", xPoint);
+
+                    classThis.tooltipXLine
+                        .attr("y1", yPoint)
+                        .attr("y2", yPoint);
                 }
-
-                if (classThis.props.updateMatch) {
-                    classThis.props.updateMatch({idx: closestIndex, from: "line"});
-                }
-
-                let closestPoint = data[closestIndex];
-
-                let xPoint = classThis.xScale(closestPoint.x);
-                let yPoint = classThis.yScale(closestPoint.y);
-
-                classThis.tooltipYLine
-                    .attr("x1", xPoint)
-                    .attr("x2", xPoint);
-
-                classThis.tooltipXLine
-                    .attr("y1", yPoint)
-                    .attr("y2", yPoint);
             }
         }
     }
@@ -159,17 +159,23 @@ class LineChart extends React.Component<ILineChartProps> {
         //need to get rid of old line. later can add in some nice animation
         //then add new line.
         const {data, currMatch} = this.props;
-
-        let xPoint = this.xScale(data[currMatch.idx].x);
-        let yPoint = this.yScale(data[currMatch.idx].y);
+console.log(this.props);
+        let toolTipX,toolTipY;
+        if (data.length > 0) {
+            toolTipX = this.xScale(data[currMatch.idx].x);
+            toolTipY = this.yScale(data[currMatch.idx].y);
+        } else { //placing tooltip on the axes if there is no data present
+            toolTipX = 0;
+            toolTipY = this.height;
+        }
 
         this.tooltipYLine
-            .attr("x1", xPoint)
-            .attr("x2", xPoint);
+            .attr("x1", toolTipX)
+            .attr("x2", toolTipX);
 
         this.tooltipXLine
-            .attr("y1", yPoint)
-            .attr("y2", yPoint);
+            .attr("y1", toolTipY)
+            .attr("y2", toolTipY);
 
         //updating the step graph
         let stepPath = `M 0 ${this.height} `;
