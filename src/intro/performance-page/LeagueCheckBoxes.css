@@ -1,0 +1,19 @@
+.league_check_boxes {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    width: 70%;
+}
+
+.league_check_container {
+    display: grid;
+    place-items: center;
+}
+
+.league_check_selector:hover, .league_check_selector *:hover {
+    cursor: pointer;
+    background: grey
+}
+
+.league_check_selector {
+    width: 100%;
+}

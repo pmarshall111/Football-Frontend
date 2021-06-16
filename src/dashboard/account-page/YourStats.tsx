@@ -109,7 +109,7 @@ const YourStats = (props: any) => (
         <h5>Teams most bet on...</h5>
         <TeamsMostBetOn />
         <h5 className={"most-prof-title"}>Most profitable bet</h5>
-        <Betslip date={"123"} teams={["a", "b"]} odds={[1.2, 4.3, 7.7]} betOn={0} result={1} stake={5.5}></Betslip>
+        {/*<Betslip date={"123"} teams={["a", "b"]} odds={[1.2, 4.3, 7.7]} betOn={0} result={1} stake={5.5}></Betslip>*/}
     </section>
 );
 

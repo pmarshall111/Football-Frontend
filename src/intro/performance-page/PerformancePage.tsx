@@ -35,6 +35,8 @@ const PerformancePage = (props: any) => {
         return isGoodDate && isGoodLeague;
     })
     let totalProfit = 0;
+    let totalOut = 0;
+    let totalIn = 0;
     const series = betsToShow.map(x => {
         const {homeScore, awayScore, bet, prediction} = x;
         const {home,draw,away} = prediction.bookieOdds;
@@ -44,26 +46,30 @@ const PerformancePage = (props: any) => {
         let odds = [home,draw,away];
         if (result == resultBetOn) {
             winLoss = stake*odds[resultBetOn];
+            totalIn += winLoss;
         } else {
             winLoss = -stake;
         }
         totalProfit += winLoss;
+        totalOut += stake;
         return {date: new Date(x.kickOff), winLoss };
     });
     const [currMatch, setCurrMatch] = useState({idx: Math.max(0,series.length-1), from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
     updateCurrMatchIndexIfOutOfRange(currMatch, setCurrMatch, series);
     let totalMonths = getMonthsBetweenDates(currDates.startDate, currDates.endDate);
     let betsPerMonth = betsToShow.length/totalMonths;
-
+    let percentageProfit = 100*totalIn / totalOut - 100;
     return (
         <div>
-            <div className={"perf-filter-btn"} onClick={() => setShowFilters(!showFilters)}>
-                <h5>Filters</h5>
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
-                    <g fill="#626262"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 2h-1v5h1V2zm6.1 5H6.4L6 6.45v-1L6.4 5h3.2l.4.5v1l-.4.5zm-5 3H1.4L1 9.5v-1l.4-.5h3.2l.4.5v1l-.4.5zm3.9-8h-1v2h1V2zm-1 6h1v6h-1V8zm-4 3h-1v3h1v-3zm7.9 0h3.19l.4-.5v-.95l-.4-.5H11.4l-.4.5v.95l.4.5zm2.1-9h-1v6h1V2zm-1 10h1v2h-1v-2z"/></g>
-                </svg>
+            <div className={"perf-filter-btn-container"} onClick={() => setShowFilters(!showFilters)}>
+                <div className={"perf-filter-btn"}>
+                    <h5>Filters</h5>
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
+                        <g fill="#626262"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 2h-1v5h1V2zm6.1 5H6.4L6 6.45v-1L6.4 5h3.2l.4.5v1l-.4.5zm-5 3H1.4L1 9.5v-1l.4-.5h3.2l.4.5v1l-.4.5zm3.9-8h-1v2h1V2zm-1 6h1v6h-1V8zm-4 3h-1v3h1v-3zm7.9 0h3.19l.4-.5v-.95l-.4-.5H11.4l-.4.5v.95l.4.5zm2.1-9h-1v6h1V2zm-1 10h1v2h-1v-2z"/></g>
+                    </svg>
+                </div>
             </div>
-            <div className={`perf-filters show ${showFilters ? "show" : ""}`}>
+            <div className={`perf-filters ${showFilters ? "show" : ""}`}>
                 <Filters updateDates={(obj: {startDate: Date, endDate: Date}) => setCurrDates(obj)}
                          updateLeagues={(obj: CountriesEntity) => setCurrLeagues(obj)}
                          currLeagues={currLeagues}
@@ -72,13 +78,13 @@ const PerformancePage = (props: any) => {
             </div>
             <div className={"perf-info"}>
                 <div>
-                    <h5>Profit: £{totalProfit}</h5>
+                    <h5>Profit: £{totalProfit} ({percentageProfit > 0 ? "+" : ""}{percentageProfit.toFixed(1)}%)</h5>
                     <div className={"perf-chart"}>
                         <LineChart data={series} currDates={currDates} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)} />
                     </div>
                 </div>
                 <div>
-                    <h5>Number of Bets Recommended: {betsToShow.length} (~{betsPerMonth.toFixed(1)}/month)</h5>
+                    <h5>Number of Bets: {betsToShow.length} (~{betsPerMonth.toFixed(1)}/month)</h5>
                     <div className={"perf-chart perf-table"}>
                         <BetDisplay data={betsToShow} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)}/>
                     </div>

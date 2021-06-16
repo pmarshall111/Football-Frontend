@@ -10,11 +10,11 @@ const Intro = (props: any) => {
         return (
             <main>
                     <LandingPage />
-                    <TitleBreak title={"Predictions"} />
+                    <TitleBreak title={"Predictions"} id={"predictions"} />
                     <PredictionPage />
-                    <TitleBreak title={"Performance"} />
+                    <TitleBreak title={"Performance"} id={"performance"} />
                     <PerformancePage />
-                    <TitleBreak title={"FAQs"} />
+                    <TitleBreak title={"FAQs"} id={"faqs"} />
                     <FaqPage />
             </main>
         );

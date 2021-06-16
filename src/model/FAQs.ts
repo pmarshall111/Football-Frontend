@@ -1,21 +1,26 @@
 export const faqs: {question: string, answer: string}[] = [{
     question: "How does it work?",
-    answer: "Our AI looks over the results of ~10,000 previous games and learns patterns in the data, looking at " +
-        "things like team form, xG and lineups. In total, the model looks at roughly 50 of these statistics for all 10,000 " +
-        "games which allows it to form accurate predictions for future matches."
+    answer: "A Logistic Regression algorithm has been trained on over 10,000 previous games. " +
+        "The algorithm looks at 85 features in all - going over things like difficulty of previous games, xG, H2H between the teams," +
+        " team lineups, goals scored... and more that you'd expect. These stats are calculated for upcoming games and run through the algorithm, creating a prediction. " +
+        "This is then compared to the prediction given by the bookies. A bet is recommended if our prediction is the most likely outcome, and is over 20% higher than the bookie's prediction."
+},{
+    question: "How are the probabilities from the bookies calculated?",
+    answer: "You can do 1 divided by the decimal odds to get their probability of the result. i.e. odds of 2.37,3.5,2.9 have probabilities of 42%,29%,34% If you add them all together, you'll see that the total probability offered by " +
+        "the bookies comes to ~105% rather than 100%. This extra 5% cushion is how they make money."
 }, {
-    question: "Do I have to pay?",
-    answer: "No. The platform is completely free."
+    question: "Why are there no predictions early on in the season?",
+    answer: "The model uses almost no data from previous seasons (only using the H2H results from past seasons). Because of this, it can take a number of games " +
+        "for the statistics to accurately reflect team performance. To counter this, I've manually stopped the model from predicting in the first 7 games. Note as well that " +
+        " the model will provide more accurate predictions as more games have been played."
 }, {
     question: "Am I guaranteed to make money?",
-    answer: "As with all things involving money, nothing can be 100% certain, and it is possible that when you begin using " +
-        "the model you get unlucky and lose your first bet. However over the long term it is expected that using this model " +
-        "will produce a profit."
+    answer: "No. If you play around with the date slider in the Performance section, you'll see that there are times where some bets are lost and you'll lose money."
 }, {
-    question: "Any future plans for expansion?",
-    answer: "Yes! We plan to offer an option soon where we will automatically place bets for you as soon as we find a good bet, " +
-        "removing any need for you to manually place bets yourself."
-}, {
-    question: "Who can I vent to?",
-    answer: ""
+    question: "Any future plans?",
+    answer: "Yes! " +
+        "1. Mailing lists so you can be emailed as soon as a good bet is found." +
+        "2. A system to automatically place bets for you as soon as we find a good bet." +
+        "However... this is very much a side project for me and unfortunately work is a thing, and so is sleep. I'm also looking to implement " +
+        "a CI/CD pipeline for this as well which won't be noticed as a feature."
 }]

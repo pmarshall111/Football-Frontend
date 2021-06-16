@@ -1,6 +1,20 @@
+
+
+.perf-filter-btn-container {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: end;
+    align-items: center;
+}
+
 .perf-filter-btn {
     display: flex;
-    justify-content: flex-end;
+    justify-items: end;
+}
+
+.perf-filter-btn:hover {
+    background: grey;
+    cursor: pointer;
 }
 
 .perf-filter-btn > * {

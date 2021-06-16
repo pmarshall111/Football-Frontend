@@ -1,5 +1,6 @@
 import React from 'react';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
+import {ArrowDown, ArrowUp} from "react-bootstrap-icons";
 
 const getPredictionColour = (pred: number) => {
     if (pred > 15) return "#a0ff33"
@@ -19,11 +20,15 @@ const PredictionComparison = (props: PredComparisonProps) => {
     return (
         <OverlayTrigger trigger={["hover", "focus"]} placement={"bottom"} overlay={
             <Tooltip id={`tooltip-${improvement}`}>
-                The bookies odds predict a {bookiePerc.toFixed(decimals)}% chance of this result.
-                We calculate this result has a {ourPerc.toFixed(decimals)}% chance... {Math.abs(improvement).toFixed(decimals)}% {improvement > 0 ? "more" : "less"} likely to happen than the bookies!
+                <p>We think this result is <b>{Math.abs(improvement).toFixed(decimals)}% {improvement > 0 ? "MORE" : "LESS"} likely</b> to happen than the bookies.</p>
+                <p>Our prediction: {ourPerc.toFixed(decimals)}%</p>
+                <p>Bookies prediction: {bookiePerc.toFixed(decimals)}%</p>
             </Tooltip>
         }>
-            <h5 style={{backgroundColor: getPredictionColour(improvement)}}>{ourPerc.toFixed(decimals)}%</h5>
+            <div className={"pred_comparison"} style={{backgroundColor: getPredictionColour(improvement)}}>
+                {improvement > 0 ? <ArrowUp /> : <ArrowDown />}
+                <h5>{improvement.toFixed(decimals)}%</h5>
+            </div>
         </OverlayTrigger>
     );
 }

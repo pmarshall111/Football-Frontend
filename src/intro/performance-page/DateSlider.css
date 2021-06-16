@@ -10,3 +10,8 @@
 .track-selected {
     stroke: #61dafb;
 }
+
+
+#d3-date-slider {
+    cursor: pointer;
+}

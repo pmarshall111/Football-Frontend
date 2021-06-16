@@ -7,16 +7,13 @@ import {Overlay} from "react-bootstrap";
 import PredictionComparison from "./PredictionComparison";
 
 export const Betslip = (props: BetslipProps) => {
-    const {date, teams, odds, betOn, result, ourPredictions=[2.1,3.2,4.5], stake, backgroundColour} = props;
+    const {date, teams, odds, betOn, result, ourPredictions, bookiePredictions, stake, backgroundColour} = props;
     const [homeTeam, awayTeam] = teams;
     const [homeOdds, drawOdds, awayOdds] = odds;
     const toReturn = (stake*odds[betOn]).toFixed(2);
     const stakeStr = stake.toFixed(2);
     const bColour = backgroundColour ? backgroundColour : "transparent";
-    const mapFunc = (val: number) => 100/val
-    const bookiePercentages = odds.map(mapFunc);
-    const ourPercentages = ourPredictions.map(mapFunc);
-    const improvements = ourPercentages.map((x,idx) => <PredictionComparison ourPerc={x} bookiePerc={bookiePercentages[idx]} />);
+    const improvements = ourPredictions.map((x,idx) => <PredictionComparison ourPerc={x*100} bookiePerc={bookiePredictions[idx]*100} />);
     const bet = [homeTeam, "draw", awayTeam];
     return (
         <div style={{backgroundColor: bColour}}>
@@ -33,7 +30,7 @@ export const Betslip = (props: BetslipProps) => {
                     <h5>{drawOdds}</h5>
                     <h5>{awayOdds}</h5>
                 </div>
-                <h5>Our predictions:</h5>
+                <h5>Our Prediction...</h5>
                 <div className={"grid3col"}>
                     {improvements}
                 </div>
@@ -52,6 +49,7 @@ export type BetslipProps = {
     betOn: number,
     result: number,
     stake: number,
-    ourPredictions?: number[],
+    bookiePredictions: number[],
+    ourPredictions: number[],
     backgroundColour? : string
 }

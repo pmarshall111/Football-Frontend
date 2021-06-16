@@ -14,7 +14,7 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-.grid3col *, .matchup {
+.grid3col > *, .matchup {
     border: 1px solid black;
     margin: 0;
 }
@@ -29,4 +29,21 @@
 .percentages-use-full-width {
     grid-column: 1 / span 2;
     display: grid;
+}
+
+.pred_comparison {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.pred_comparison svg {
+    justify-self: end;
+}
+
+.pred_comparison h5 {
+    justify-self: start;
+}
+
+.pred_comparison * {
+    margin: 0;
 }

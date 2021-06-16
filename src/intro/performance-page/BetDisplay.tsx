@@ -8,15 +8,18 @@ const BetDisplay = (props: any) => {
     const {data, currMatch, updateMatch} = props;
     console.log({data})
     const bets = data.map((x:GameEntity, idx:number) => {
-        const teams = [x.homeTeam, x.awayTeam];
-        const {home,draw,away} = x.prediction.bookieOdds;
-        const odds = [home,draw,away]
+        const {homeScore,awayScore, homeTeam, awayTeam} = x;
+        const teams = [homeTeam, awayTeam];
+        const {bookieOdds, predictions, bookiePredictions} = x.prediction;
+        const odds = [bookieOdds.home,bookieOdds.draw,bookieOdds.away]
+        const ourPredictions = [predictions.home,predictions.draw,predictions.away]
+        const theirPredictions = [bookiePredictions.home,bookiePredictions.draw,bookiePredictions.away]
         const resultBetOn = x.bet ? x.bet.resultBetOn : -1;
         const stake = x.bet ? x.bet.stake : -1;
-        const {homeScore,awayScore} = x;
         const result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
         return (<div onMouseEnter={() => updateMatch({idx, from:"bets"})} id={`betslip-${idx}`}>
-            <Betslip date={new Date(x.kickOff).toDateString()} teams={teams} odds={odds} betOn={resultBetOn} result={result} stake={stake} backgroundColour={currMatch.idx == idx ? "green" : ""}  />
+            <Betslip date={new Date(x.kickOff).toDateString()} teams={teams} odds={odds} betOn={resultBetOn} result={result}
+                     stake={stake} backgroundColour={currMatch.idx == idx ? "green" : ""} ourPredictions={ourPredictions} bookiePredictions={theirPredictions}  />
         </div>)});
 
     const betToShow = document.querySelector(`#betslip-${currMatch.idx}`);
