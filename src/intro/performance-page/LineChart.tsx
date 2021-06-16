@@ -25,12 +25,24 @@ class LineChart extends React.Component<ILineChartProps> {
     private rect: any;
     private tooltipXLine: any;
     private tooltipYLine: any;
+    private mouseMoveInterval?: number;
 
     constructor(props: any) {
         super(props);
+        this.state = {enableMouseMove: true}
+    }
+
+    componentWillUnmount() {
+        if (this.mouseMoveInterval) {
+            clearInterval(this.mouseMoveInterval);
+        }
     }
 
     componentDidMount(): void {
+        //used to speed up the site to reduce the times mousemove can fire. is disabled in mousemove func.
+        this.mouseMoveInterval = window.setInterval(() => {
+            this.setState({enableMouseMove: true})
+        }, 50)
         console.log(this.props.data)
         const margin = {top: 10, right: 30, bottom: 30, left: 60};
 
@@ -140,7 +152,7 @@ class LineChart extends React.Component<ILineChartProps> {
         function onMouseMove(classThis: any) { //passing the this from the class in to access the event this and also the class this.
             return function () {
                 const {data} = classThis.props;
-                if (data.length > 0) { //if there's no data in the line graph we don't need to update the tooltip.
+                if (classThis.state.enableMouseMove && data.length > 0) { //if there's no data in the line graph we don't need to update the tooltip.
                     // @ts-ignore
                     let [x, y] = d3.mouse(this);
                     let mouseDate = classThis.xScale.invert(x);
@@ -173,6 +185,7 @@ class LineChart extends React.Component<ILineChartProps> {
                         .attr("y1", yPoint)
                         .attr("y2", yPoint);
                 }
+                classThis.setState({enableMouseMove: false})
             }
         }
     }
