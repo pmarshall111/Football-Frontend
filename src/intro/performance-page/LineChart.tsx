@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 // @ts-ignore
 import * as d3 from "d3";
+import {start} from "repl";
 
 interface ILineChartProps {
     data: {
@@ -95,20 +96,23 @@ class LineChart extends React.Component<ILineChartProps> {
             .attr("stroke-dasharray", "5,5");
 
         //setting tooltip to the current point in the series
-        let xPoint = this.xScale(data[currMatch.idx].date);
-        let profitAtCurrIdx = this.getCurrentProfitForIndex(data, currMatch.idx);
-        let yPoint = this.yScale(profitAtCurrIdx);
+        if (data.length > 0) {
+            let xPoint = this.xScale(data[currMatch.idx].date);
+            let profitAtCurrIdx = this.getCurrentProfitForIndex(data, currMatch.idx);
+            let yPoint = this.yScale(profitAtCurrIdx);
 
-        this.tooltipYLine
-            .attr("x1", xPoint)
-            .attr("x2", xPoint);
+            this.tooltipYLine
+                .attr("x1", xPoint)
+                .attr("x2", xPoint);
 
-        this.tooltipXLine
-            .attr("y1", yPoint)
-            .attr("y2", yPoint);
+            this.tooltipXLine
+                .attr("y1", yPoint)
+                .attr("y2", yPoint);
+        }
 
         //creating the step graph
-        let stepPath = `M 0 ${this.height} `;
+        let startYPoint = this.yScale(0);
+        let stepPath = `M 0 ${startYPoint} `;
         let runningTotal = 0;
         data.forEach(s => {
             runningTotal += s.winLoss;
@@ -178,6 +182,31 @@ class LineChart extends React.Component<ILineChartProps> {
         //then add new line.
         const {data, currMatch, currDates} = this.props;
 
+        //need to also update the axes here, and then also the scale.
+        //axes
+        this.xScale.domain([currDates.startDate, currDates.endDate])
+            .range([0, this.width])
+
+        this.xAxis.call(d3.axisBottom(this.xScale).ticks(5));
+
+        let yAxisMin, yAxisMax;
+        if (data.length > 0) {
+            //min will either be 0 or the lowest val -10
+            let {min,max} = this.getMinAndMaxProfitsOverTime(data);
+            console.log({min,max})
+            yAxisMin = min-10; //add some space around the line
+            yAxisMax = max+10;
+        } else {
+            yAxisMin = -20;
+            yAxisMax = 20;
+        }
+        this.yScale.domain([yAxisMin,yAxisMax])
+            .range([this.height, 0]);
+
+
+        this.yAxis.call(d3.axisLeft(this.yScale));
+
+
         let toolTipX,toolTipY;
         if (data.length > 0) {
             toolTipX = this.xScale(data[currMatch.idx].date);
@@ -196,32 +225,9 @@ class LineChart extends React.Component<ILineChartProps> {
             .attr("y1", toolTipY)
             .attr("y2", toolTipY);
 
-        //need to also update the axes here, and then also the scale.
-        //axes
-        this.xScale.domain([currDates.startDate, currDates.endDate])
-            .range([0, this.width])
-
-        this.xAxis.call(d3.axisBottom(this.xScale).ticks(5));
-
-        let yAxisMin, yAxisMax;
-        if (data.length > 0) {
-            //min will either be 0 or the lowest val -10
-            let {min,max} = this.getMinAndMaxProfitsOverTime(data);
-            yAxisMin = min-10; //add some space around the line
-            yAxisMax = max+10;
-        } else {
-            yAxisMin = -20;
-            yAxisMax = 20;
-        }
-        this.yScale.domain([yAxisMin,yAxisMax])
-            .range([this.height, 0]);
-
-
-        this.yAxis.call(d3.axisLeft(this.yScale));
-
-
         //updating the step graph
-        let stepPath = `M 0 ${this.height} `;
+        let startYPoint = this.yScale(0);
+        let stepPath = `M 0 ${startYPoint} `;
         let runningTotal = 0;
         data.forEach(s => {
             runningTotal += s.winLoss;
@@ -247,7 +253,7 @@ class LineChart extends React.Component<ILineChartProps> {
             if (runningTotal < min) {
                 min = runningTotal
             }
-            if (runningTotal > min) {
+            if (runningTotal > max) {
                 max = runningTotal;
             }
         });

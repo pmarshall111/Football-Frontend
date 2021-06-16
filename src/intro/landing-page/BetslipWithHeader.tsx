@@ -13,7 +13,7 @@ const BetslipWithHeader = (props: BetslipProps) => {
                     <h5>New bet</h5>
                     <p>X</p>
                 </Card.Header>
-                <Betslip date={date} teams={teams} odds={odds} betOn={betOn} result={result} stake={stake} />
+                <Betslip date={date} teams={teams} odds={odds} betOn={betOn} result={result} stake={stake}  />
             </Card>
         )
 };

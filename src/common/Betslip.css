@@ -23,5 +23,10 @@
     padding-top: 10px;
     grid-column: 1 / span 2;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+}
+
+.percentages-use-full-width {
+    grid-column: 1 / span 2;
+    display: grid;
 }

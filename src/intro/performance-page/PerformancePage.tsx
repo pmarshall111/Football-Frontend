@@ -1,128 +1,59 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import LineChart from "./LineChart";
 import BetDisplay from "./BetDisplay";
 
 import "./PerformancePage.css"
 import Filters from "./Filters";
-
-const betHistory = [
-    {
-        date: new Date(2019,7,1),
-        teams: ["Liverpool", "Man City"],
-        league: "EPL",
-        odds: [2.45,3.2,4.7],
-        betOn: 0,
-        result: 0,
-        stake: 5
-    },
-    {
-        date: new Date(2019,8,30),
-        teams: ["Southampton", "Leicester"],
-        league: "EPL",
-        odds: [5.1,4.1,2.2],
-        betOn: 0,
-        result: 0,
-        stake: 15.5
-    },
-    {
-        date: new Date(2019,9,3),
-        teams: ["Man United", "Burnley"],
-        league: "EPL",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2019,10,13),
-        teams: ["Anzhi", "CSKA Moscow"],
-        league: "Russia",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2019,11,22),
-        teams: ["Barcelona", "Atletico Madrid"],
-        league: "la Liga",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,0,5),
-        teams: ["PSG", "OSC Lille"],
-        league: "Ligue 1",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,1,23),
-        teams: ["Dortmund", "Hertha Berlin"],
-        league: "Bundesliga",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,2,30),
-        teams: ["Juventus", "Inter"],
-        league: "Serie A",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,3,17),
-        teams: ["Birmingham", "Swansea"],
-        league: "EPL",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    },
-    {
-        date: new Date(2020,4,20),
-        teams: ["Leganes", "Eibar"],
-        league: "La Liga",
-        odds: [1.45,3.8,8.7],
-        betOn: 2,
-        result: 2,
-        stake: 3.5
-    }
-];
+import {backendUrl} from "../../config";
+import {GameEntity} from "../../entities/GameEntity";
+import {CountriesEntity} from "../../entities/CountriesEntity";
 
 const PerformancePage = (props: any) => {
     const [showFilters, setShowFilters] = useState(false);
-    const [currDates, setCurrDates] = useState({startDate: betHistory[0].date, endDate: new Date()});
-    const [currLeagues, setCurrLeagues] = useState({"EPL": true, "Bundesliga": true, "La Liga": true, "Ligue 1": true, "Russia": true, "Serie A": true});
-    const dateExtremes = {startDate: betHistory[0].date, endDate: betHistory[betHistory.length-1].date};
+    const [currDates, setCurrDates] = useState({startDate: new Date(2019,7,1), endDate: new Date()});
+    const [currLeagues, setCurrLeagues] = useState<CountriesEntity>({"EPL": true, "BUNDESLIGA": true, "LA_LIGA": true, "LIGUE_1": true, "RUSSIA": true, "SERIE_A": true});
+    const [historicBets, setHistoricBets] = useState<GameEntity[]>([]);
 
-    const betsToShow = betHistory.filter(x => {
-        const {date, league} = x;
-        const isGoodDate = date >= currDates.startDate && date <= currDates.endDate;
+    useEffect(() => {
+        getHistoricBets();
+    }, [])
+
+    const getHistoricBets = () => {
+        fetch(`${backendUrl}/bets`).then(r => r.json())
+            .then(response => {
+                console.log({response})
+                setHistoricBets(response);
+            })
+    }
+
+    const betsToShow = historicBets.filter(x => {
+        const {kickOff, league} = x;
+        let kickOffDate = new Date(kickOff)
+        const isGoodDate = kickOffDate >= currDates.startDate && kickOffDate <= currDates.endDate;
         // @ts-ignore
         const isGoodLeague = currLeagues[league];
         return isGoodDate && isGoodLeague;
     })
+    let totalProfit = 0;
     const series = betsToShow.map(x => {
-        const {result, betOn, stake, odds} = x;
+        const {homeScore, awayScore, bet, prediction} = x;
+        const {home,draw,away} = prediction.bookieOdds;
+        const {stake, resultBetOn} = bet;
         let winLoss = 0;
-        if (result == betOn) {
-            winLoss = stake*odds[betOn];
+        let result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
+        let odds = [home,draw,away];
+        if (result == resultBetOn) {
+            winLoss = stake*odds[resultBetOn];
         } else {
-            winLoss = stake;
+            winLoss = -stake;
         }
-        return {date: x.date, winLoss };
+        totalProfit += winLoss;
+        return {date: new Date(x.kickOff), winLoss };
     });
     const [currMatch, setCurrMatch] = useState({idx: Math.max(0,series.length-1), from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
     updateCurrMatchIndexIfOutOfRange(currMatch, setCurrMatch, series);
+    let totalMonths = getMonthsBetweenDates(currDates.startDate, currDates.endDate);
+    let betsPerMonth = betsToShow.length/totalMonths;
 
     return (
         <div>
@@ -134,20 +65,20 @@ const PerformancePage = (props: any) => {
             </div>
             <div className={`perf-filters show ${showFilters ? "show" : ""}`}>
                 <Filters updateDates={(obj: {startDate: Date, endDate: Date}) => setCurrDates(obj)}
-                         updateLeagues={(obj: {"EPL": boolean, "Bundesliga": boolean, "La Liga": boolean, "Ligue 1": boolean, "Russia": boolean, "Serie A": boolean}) => setCurrLeagues(obj)}
+                         updateLeagues={(obj: CountriesEntity) => setCurrLeagues(obj)}
                          currLeagues={currLeagues}
-                         dateExtremes={dateExtremes}
+                         dateExtremes={currDates}
                 />
             </div>
             <div className={"perf-info"}>
                 <div>
-                    <h5>Profit: £69</h5>
+                    <h5>Profit: £{totalProfit}</h5>
                     <div className={"perf-chart"}>
                         <LineChart data={series} currDates={currDates} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)} />
                     </div>
                 </div>
                 <div>
-                    <h5>Total Bets: 60 (1.1/week AVG)</h5>
+                    <h5>Number of Bets Recommended: {betsToShow.length} (~{betsPerMonth.toFixed(1)}/month)</h5>
                     <div className={"perf-chart perf-table"}>
                         <BetDisplay data={betsToShow} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)}/>
                     </div>
@@ -166,6 +97,12 @@ const updateCurrMatchIndexIfOutOfRange = (currMatch: {idx: number, from: String}
     } else if (currMatch.idx < 0) {
         setCurrMatch({idx:0, from: currMatch.from})
     }
+}
+
+const getMonthsBetweenDates = (startDate: Date, endDate: Date) => {
+    let monthsYears = (endDate.getFullYear() - startDate.getFullYear()) * 12;
+    let months = endDate.getMonth() - startDate.getMonth();
+    return Math.max(1,monthsYears+months);
 }
 
 export default PerformancePage;

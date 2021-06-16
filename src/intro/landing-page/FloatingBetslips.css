@@ -1,5 +1,4 @@
 .floating-container {
-    position: absolute;
     z-index: -1;
     height: 75vh;
     width: 100vw;

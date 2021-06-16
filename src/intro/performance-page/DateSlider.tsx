@@ -23,7 +23,7 @@ class DateSlider extends React.Component<IDateSlider> {
     private endDate: any;
 
     componentDidMount() {
-        const {dateExtremes, updateDates} = this.props;
+        let {dateExtremes, updateDates} = this.props;
 
         const margin = {top:0, right:50, bottom:0, left:50},
             width = 960 - margin.left - margin.right,

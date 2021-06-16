@@ -1,0 +1,17 @@
+.pagination-container {
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr;
+}
+
+.pagination-display {
+    display: grid;
+    grid-gap: 5%;
+    min-height: 50vh;
+    place-items: center;
+}
+
+.pagination-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
