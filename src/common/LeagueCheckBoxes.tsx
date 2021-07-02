@@ -11,7 +11,7 @@ const LeagueCheckBoxes = (props: any) => {
             const handleClick = ()=>{console.log(x); updateLeagues({...currLeagues, [x]: !currLeagues[x]})};
             // @ts-ignore
             return (
-                <div className={"league_check_selector"} onClick={handleClick}>
+                <div className={"league_check_selector"} onClick={handleClick} key={x}>
                     <FormCheck>
                         <FormCheck.Input onClick={handleClick} type={"checkbox"} checked={currLeagues[x]}/>
                         <FormCheck.Label onClick={handleClick}>{convertDbToHuman(x)}</FormCheck.Label>
@@ -21,7 +21,7 @@ const LeagueCheckBoxes = (props: any) => {
         });
     return (
         <div>
-            <h5>From Leagues:</h5>
+            <h5>Show within these Leagues:</h5>
             <div className={"league_check_container"}>
                 <div className={"league_check_boxes"}>
                     {leagueCheckBoxes}

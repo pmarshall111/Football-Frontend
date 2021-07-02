@@ -1,0 +1,27 @@
+.title-with-lines {
+    position: relative;
+    font-size: 30px;
+    z-index: 1;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+.title-with-lines:before, .title-with-lines:after {
+    position: absolute;
+    top: 51%;
+    overflow: hidden;
+    width: 50%;
+    height: 1px;
+    content: '\a0';
+    background-color: black;
+}
+.title-with-lines:before {
+    margin-left: -50%;
+    text-align: right;
+    transform: translateX(-30px);
+}
+
+.title-with-lines:after {
+    transform: translateX(30px);
+}

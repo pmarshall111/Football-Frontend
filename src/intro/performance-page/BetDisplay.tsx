@@ -17,9 +17,10 @@ const BetDisplay = (props: any) => {
         const resultBetOn = x.bet ? x.bet.resultBetOn : -1;
         const stake = x.bet ? x.bet.stake : -1;
         const result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
-        return (<div onMouseEnter={() => updateMatch({idx, from:"bets"})} id={`betslip-${idx}`}>
+        return (<div className={"bet-in-scroller"} style={{backgroundColor: currMatch.idx == idx ? "#ffbf00" : ""}}
+                     onMouseEnter={() => updateMatch({idx, from:"bets"})} id={`betslip-${idx}`} key={"slip" + x.homeTeam + x.kickOff}>
             <Betslip date={new Date(x.kickOff).toDateString()} teams={teams} odds={odds} betOn={resultBetOn} result={result}
-                     stake={stake} backgroundColour={currMatch.idx == idx ? "green" : ""} ourPredictions={ourPredictions} bookiePredictions={theirPredictions}  />
+                     stake={stake} ourPredictions={ourPredictions} bookiePredictions={theirPredictions}  />
         </div>)});
 
     const betToShow = document.querySelector(`#betslip-${currMatch.idx}`);

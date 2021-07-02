@@ -1,3 +1,5 @@
-.filters_container {
-    margin-bottom: 100px;
+.line-slider-container {
+    max-width: 960px;
+    display: grid;
+    place-items: center;
 }

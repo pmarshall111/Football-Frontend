@@ -31,8 +31,9 @@ class DateSlider extends React.Component<IDateSlider> {
 
         this.svg = d3.select("#d3-date-slider")
             .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height);
+            .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height}`)
+            // .attr("width", width + margin.left + margin.right)
+            // .attr("height", height);
 
         this.xScale = d3.scaleTime()
             .domain([dateExtremes.startDate, new Date()])

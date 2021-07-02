@@ -1,12 +1,13 @@
 .league_check_boxes {
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto;
-    width: 70%;
+    grid-template-columns: auto auto auto;
+    width: 100%;
 }
 
 .league_check_container {
     display: grid;
     place-items: center;
+    margin-top: 30px;
 }
 
 .league_check_selector:hover, .league_check_selector *:hover {
@@ -16,4 +17,11 @@
 
 .league_check_selector {
     width: 100%;
+}
+
+@media only screen and (min-width: 700px) {
+    .league_check_boxes {
+        width: 70%;
+        grid-template-columns: auto auto auto auto auto auto;
+    }
 }

@@ -27,9 +27,6 @@ function App() {
                     <Route exact path={"/"}>
                         <Intro />
                     </Route>
-                    <Route path={"/dashboard"}>
-                        <Dashboard />
-                    </Route>
                 </Switch>
             </div>
         </Router>

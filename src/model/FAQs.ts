@@ -14,13 +14,8 @@ export const faqs: {question: string, answer: string}[] = [{
         "for the statistics to accurately reflect team performance. To counter this, I've manually stopped the model from predicting in the first 7 games. Note as well that " +
         " the model will provide more accurate predictions as more games have been played."
 }, {
-    question: "Am I guaranteed to make money?",
-    answer: "No. If you play around with the date slider in the Performance section, you'll see that there are times where some bets are lost and you'll lose money."
-}, {
     question: "Any future plans?",
-    answer: "Yes! " +
+    answer: "Maybe... " +
         "1. Mailing lists so you can be emailed as soon as a good bet is found." +
-        "2. A system to automatically place bets for you as soon as we find a good bet." +
-        "However... this is very much a side project for me and unfortunately work is a thing, and so is sleep. I'm also looking to implement " +
-        "a CI/CD pipeline for this as well which won't be noticed as a feature."
+        "2. A system to automatically place bets for you as soon as we find a good bet."
 }]

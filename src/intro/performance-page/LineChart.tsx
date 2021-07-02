@@ -120,6 +120,7 @@ class LineChart extends React.Component<ILineChartProps> {
             this.tooltipXLine
                 .attr("y1", yPoint)
                 .attr("y2", yPoint);
+
         }
 
         //creating the step graph
@@ -184,6 +185,7 @@ class LineChart extends React.Component<ILineChartProps> {
                     classThis.tooltipXLine
                         .attr("y1", yPoint)
                         .attr("y2", yPoint);
+
                 }
                 classThis.setState({enableMouseMove: false})
             }
@@ -206,7 +208,7 @@ class LineChart extends React.Component<ILineChartProps> {
         if (data.length > 0) {
             //min will either be 0 or the lowest val -10
             let {min,max} = this.getMinAndMaxProfitsOverTime(data);
-            console.log({min,max})
+            // console.log({min,max})
             yAxisMin = min-10; //add some space around the line
             yAxisMax = max+10;
         } else {

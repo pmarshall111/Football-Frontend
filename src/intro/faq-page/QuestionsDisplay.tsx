@@ -1,13 +1,15 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion'
 
+import "./QuestionsDisplay.css"
+
 import {faqs} from '../../model/FAQs'
 import Card from "react-bootstrap/cjs/Card";
 
 const QuestionsDisplay = (props: any) => {
     const faqSections = faqs.map((x, idx) => {
         return (
-            <Card>
+            <Card key={x.question}>
                 <Accordion.Toggle as={Card.Header} eventKey={idx+""}>
                     {x.question}
                 </Accordion.Toggle>
@@ -18,7 +20,7 @@ const QuestionsDisplay = (props: any) => {
         )
     })
     return (
-        <Accordion defaultActiveKey={"0"}>
+        <Accordion className={"questions-display"} defaultActiveKey={"0"}>
             {faqSections}
         </Accordion>
     );

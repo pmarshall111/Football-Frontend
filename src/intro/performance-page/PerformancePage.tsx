@@ -7,6 +7,9 @@ import Filters from "./Filters";
 import {backendUrl} from "../../config";
 import {GameEntity} from "../../entities/GameEntity";
 import {CountriesEntity} from "../../entities/CountriesEntity";
+import TitleBreak from "../../common/TitleBreak";
+import Button from "react-bootstrap/Button";
+import {Gear, XLg} from "react-bootstrap-icons";
 
 const PerformancePage = (props: any) => {
     const [showFilters, setShowFilters] = useState(false);
@@ -45,46 +48,47 @@ const PerformancePage = (props: any) => {
         let result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
         let odds = [home,draw,away];
         if (result == resultBetOn) {
-            winLoss = stake*odds[resultBetOn];
-            totalIn += winLoss;
+            winLoss = stake*odds[resultBetOn] - stake;
+            totalIn += stake*odds[resultBetOn];
+            totalOut += stake;
         } else {
             winLoss = -stake;
+            totalOut += stake;
         }
         totalProfit += winLoss;
-        totalOut += stake;
         return {date: new Date(x.kickOff), winLoss };
     });
+    console.log({totalIn, totalOut, totalProfit})
     const [currMatch, setCurrMatch] = useState({idx: Math.max(0,series.length-1), from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
     updateCurrMatchIndexIfOutOfRange(currMatch, setCurrMatch, series);
     let totalMonths = getMonthsBetweenDates(currDates.startDate, currDates.endDate);
     let betsPerMonth = betsToShow.length/totalMonths;
     let percentageProfit = 100*totalIn / totalOut - 100;
     return (
-        <div>
-            <div className={"perf-filter-btn-container"} onClick={() => setShowFilters(!showFilters)}>
-                <div className={"perf-filter-btn"}>
-                    <h5>Filters</h5>
-                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16">
-                        <g fill="#626262"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.5 2h-1v5h1V2zm6.1 5H6.4L6 6.45v-1L6.4 5h3.2l.4.5v1l-.4.5zm-5 3H1.4L1 9.5v-1l.4-.5h3.2l.4.5v1l-.4.5zm3.9-8h-1v2h1V2zm-1 6h1v6h-1V8zm-4 3h-1v3h1v-3zm7.9 0h3.19l.4-.5v-.95l-.4-.5H11.4l-.4.5v.95l.4.5zm2.1-9h-1v6h1V2zm-1 10h1v2h-1v-2z"/></g>
-                    </svg>
+        <div className={"perf-page-container"}>
+            <TitleBreak title={"Past Performance"} id={"performance"} subtitle={"Below are all previous bets that were recommended by the AI, along with a graph showing how the profit changed over that period."}>
+                <div className={"perf-filter-btn-container top-right-floaty"} onClick={() => setShowFilters(!showFilters)}>
+                    <Button className={"perf-filter-btn"} variant={"dark"}>
+                        {showFilters ? <XLg /> : <Gear />}
+                    </Button>
                 </div>
-            </div>
-            <div className={`perf-filters ${showFilters ? "show" : ""}`}>
-                <Filters updateDates={(obj: {startDate: Date, endDate: Date}) => setCurrDates(obj)}
-                         updateLeagues={(obj: CountriesEntity) => setCurrLeagues(obj)}
-                         currLeagues={currLeagues}
-                         dateExtremes={currDates}
-                />
-            </div>
+                <div className={`perf-filters ${showFilters ? "show" : ""}`}>
+                    <Filters updateDates={(obj: {startDate: Date, endDate: Date}) => setCurrDates(obj)}
+                             updateLeagues={(obj: CountriesEntity) => setCurrLeagues(obj)}
+                             currLeagues={currLeagues}
+                             dateExtremes={currDates}
+                    />
+                </div>
+            </TitleBreak>
             <div className={"perf-info"}>
                 <div>
-                    <h5>Profit: £{totalProfit} ({percentageProfit > 0 ? "+" : ""}{percentageProfit.toFixed(1)}%)</h5>
+                    <h4>Total profit: £{totalProfit.toFixed(2)} ({percentageProfit > 0 ? "+" : ""}{percentageProfit.toFixed(1)}%)</h4>
                     <div className={"perf-chart"}>
                         <LineChart data={series} currDates={currDates} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)} />
                     </div>
                 </div>
                 <div>
-                    <h5>Number of Bets: {betsToShow.length} (~{betsPerMonth.toFixed(1)}/month)</h5>
+                    <h4>Total Bets: {betsToShow.length} (~{betsPerMonth.toFixed(1)}/month)</h4>
                     <div className={"perf-chart perf-table"}>
                         <BetDisplay data={betsToShow} currMatch={currMatch} updateMatch={(obj:{idx: number, from: string}) => setCurrMatch(obj)}/>
                     </div>

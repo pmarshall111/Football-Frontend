@@ -19,11 +19,17 @@
     margin: 0;
 }
 
+.fixture {
+    font-weight: bold;
+}
+
 .moneyBox {
     padding-top: 10px;
     grid-column: 1 / span 2;
     display: grid;
     grid-template-columns: 1fr;
+    background-color: #fff2cc;
+    border-radius: 10px;
 }
 
 .percentages-use-full-width {

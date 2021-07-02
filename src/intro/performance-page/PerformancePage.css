@@ -28,6 +28,8 @@
 .perf-filters.show {
     max-height: 999em;
     opacity: 1;
+    padding: 20px;
+    width: 100%;
 }
 
 .perf-filters {
@@ -43,6 +45,12 @@
     display: grid;
     grid-template-columns: 100%;
     place-items: center;
+    padding: 50px 0;
+}
+
+.perf-info h4 {
+    padding: 20px;
+    font-weight: bold;
 }
 
 /**/

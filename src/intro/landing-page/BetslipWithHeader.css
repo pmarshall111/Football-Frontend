@@ -5,7 +5,8 @@
 
 .header {
     position: relative;
-    padding: 5px
+    padding: 5px;
+    border-radius: 10px !important;
 }
 
 .header * {
@@ -23,4 +24,5 @@
 .bet-card {
     border: 2px solid black;
     border-radius: 10px;
+    width: 100%;
 }

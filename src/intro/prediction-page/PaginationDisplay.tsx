@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import "./PaginationDisplay.css"
+import Button from "react-bootstrap/Button";
 
 const PaginationDisplay = (props: {itemsToDisplay: any[], cols: number, rows:number}) => {
     const [currPage, setCurrPage] = useState(0);
@@ -25,9 +26,9 @@ const PaginationDisplay = (props: {itemsToDisplay: any[], cols: number, rows:num
                 {itemsForThisPage}
             </div>
             {totalPages > 1 && (<div className={"pagination-controls"}>
-                <h5 onClick={() => changePageWithinLimits(-1)}>Back</h5>
+                <Button onClick={() => changePageWithinLimits(-1)} variant={"dark"}>Back</Button>
                 <h5>Page {currPage+1}/{totalPages}</h5>
-                <h5 onClick={() => changePageWithinLimits(1)}>Next</h5>
+                <Button onClick={() => changePageWithinLimits(1)} variant={"dark"}>Next</Button>
             </div>)}
         </div>
     )

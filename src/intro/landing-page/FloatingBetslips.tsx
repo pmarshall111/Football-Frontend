@@ -40,7 +40,7 @@ const FloatingBetslips = (props:any) => {
     let jsxSlips = slips.map((x: any, i:number) => {
         const {date, teams, odds, betOn, result, stake, ourPredictions, bookiePredictions} = x;
         return (
-            <div className={"floating-slip floating-slip-"+i}>
+            <div className={"floating-slip floating-slip-"+i} key={"slip-"+i}>
                 <BetslipWithHeader date={date} teams={teams} odds={odds} betOn={betOn} result={result} stake={stake}
                                    ourPredictions={ourPredictions} bookiePredictions={bookiePredictions} />
             </div>
