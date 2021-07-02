@@ -40,6 +40,7 @@ const PerformancePage = (props: any) => {
     let totalProfit = 0;
     let totalOut = 0;
     let totalIn = 0;
+    let betsWon = 0;
     const series = betsToShow.map(x => {
         const {homeScore, awayScore, bet, prediction} = x;
         const {home,draw,away} = prediction.bookieOdds;
@@ -48,6 +49,7 @@ const PerformancePage = (props: any) => {
         let result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
         let odds = [home,draw,away];
         if (result == resultBetOn) {
+            betsWon++;
             winLoss = stake*odds[resultBetOn] - stake;
             totalIn += stake*odds[resultBetOn];
             totalOut += stake;
@@ -58,7 +60,7 @@ const PerformancePage = (props: any) => {
         totalProfit += winLoss;
         return {date: new Date(x.kickOff), winLoss };
     });
-    console.log({totalIn, totalOut, totalProfit})
+    console.log({totalIn, totalOut, totalProfit, betsWon, totalBets: betsToShow.length, betPercWon: 100*betsWon/betsToShow.length})
     const [currMatch, setCurrMatch] = useState({idx: Math.max(0,series.length-1), from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
     updateCurrMatchIndexIfOutOfRange(currMatch, setCurrMatch, series);
     let totalMonths = getMonthsBetweenDates(currDates.startDate, currDates.endDate);

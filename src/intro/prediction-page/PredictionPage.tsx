@@ -86,7 +86,7 @@ const PredictionPage = (props: any) => {
                 <SubtitleWithContent title={"Bets we recommend"}>
                     {bets.length > 0 ?
                         <PaginationDisplay itemsToDisplay={bets} cols={cols} rows={2}/> :
-                        <h5>No bets worth taking!</h5>
+                        <p>No bets worth taking at the moment...</p>
                     }
                 </SubtitleWithContent>
                 <SubtitleWithContent title={"All predictions"}>
@@ -99,8 +99,9 @@ const PredictionPage = (props: any) => {
     return (
         <div>
             <TitleBreak title={"Recommendations"} subtitle={subtitle} id={"predictions"} />
-            <p>There are no predictions for this week!</p>
-            <p>Is it the football season now? Hopefully, otherwise I have a bug.</p>
+            <SubtitleWithContent title={"All predictions"}>
+                <p>There are no predictions at the moment... Hopefully it's the summer and there's no football, otherwise I probably have a bug.</p>
+            </SubtitleWithContent>
         </div>
     )
 }
