@@ -100,7 +100,7 @@ const PredictionPage = (props: any) => {
         <div>
             <TitleBreak title={"Recommendations"} subtitle={subtitle} id={"predictions"} />
             <SubtitleWithContent title={"All predictions"}>
-                <p>There are no predictions at the moment... Hopefully it's the summer and there's no football, otherwise I probably have a bug.</p>
+                <p>There are no predictions at the moment.</p>
             </SubtitleWithContent>
         </div>
     )
