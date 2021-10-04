@@ -13,9 +13,4 @@ export const faqs: {question: string, answer: string}[] = [{
     answer: "The model uses almost no data from previous seasons (only using the H2H results from past seasons). Because of this, it can take a number of games " +
         "for the statistics to accurately reflect team performance. To counter this, I've manually stopped the model from predicting in the first 7 games. Note as well that " +
         " the model will provide more accurate predictions as more games have been played."
-}, {
-    question: "Any future plans?",
-    answer: "Maybe... " +
-        "1. Mailing lists so you can be emailed as soon as a good bet is found." +
-        "2. A system to automatically place bets for you as soon as we find a good bet."
 }]
