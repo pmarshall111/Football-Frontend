@@ -6,7 +6,7 @@ export const faqs: {question: string, answer: string}[] = [{
         "This is then compared to the prediction given by the bookies. A bet is recommended if our prediction is the most likely outcome, and is over 20% higher than the bookie's prediction."
 },{
     question: "How are the probabilities from the bookies calculated?",
-    answer: "You can do 1 divided by the decimal odds to get their probability of the result. i.e. odds of 2.37,3.5,2.9 have probabilities of 42%,29%,34% If you add them all together, you'll see that the total probability offered by " +
+    answer: "You can do 1 divided by the decimal odds to get their probability of the result. i.e. odds of 2.37,3.5,2.9 have probabilities of 42%,29%,34%. If you add them all together, you'll see that the total probability offered by " +
         "the bookies comes to ~105% rather than 100%. This extra 5% cushion is how they make money."
 }, {
     question: "Why are there no predictions early on in the season?",
