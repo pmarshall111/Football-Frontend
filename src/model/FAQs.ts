@@ -11,6 +11,6 @@ export const faqs: {question: string, answer: string}[] = [{
 }, {
     question: "Why are there no predictions early on in the season?",
     answer: "The model uses almost no data from previous seasons (only using the H2H results from past seasons). Because of this, it can take a number of games " +
-        "for the statistics to accurately reflect team performance. To counter this, I've manually stopped the model from predicting in the first 7 games. Note as well that " +
+        "for the statistics to accurately reflect team performance. I've therefore stopped the model from predicting in the first 7 games to account for the innaccuracy of early matches. Note as well that " +
         " the model will provide more accurate predictions as more games have been played."
 }]
