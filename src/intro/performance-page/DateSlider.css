@@ -4,11 +4,11 @@
 }
 
 .track {
-    stroke: lightgray;
+    stroke: rgba(0,0,0,0.2);
 }
 
 .track-selected {
-    stroke: #61dafb;
+    stroke: #B5A1D2;
 }
 
 

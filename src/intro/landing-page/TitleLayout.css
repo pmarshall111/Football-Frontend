@@ -2,10 +2,11 @@
     display: grid;
     grid-template-columns: 1fr;
     text-align: left;
-    padding: 130px 0%;
+    padding: 130px 0;
     width: 100%;
     place-items: center;
     grid-gap: 40px;
+    z-index: 5;
     /*transform: translateY(-30%);*/
     /*background-color: rgba(0,0,0,0.05);*/
     /*border: 2px solid grey;*/
@@ -29,7 +30,7 @@
 }
 
 .title-layout button {
-    margin: 0px 10px 20px 10px;
+    margin: 0 10px 20px 10px;
 }
 
 @media only screen and (min-width: 500px) {

@@ -2,21 +2,24 @@
     width: 100%;
     display: grid;
     place-items: center;
-    background: paleturquoise;
+    background: #563d7c;
     position: relative;
-    padding: 20px 0px;
+    padding: 20px 0;
     margin-top: 75px;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+    color: lightgrey;
 }
 
 .title-break h3 {
     font-size: 2em;
-    padding: 20px
+    padding: 20px;
+    font-weight: bold;
 }
 
 .title-break .text-box {
     max-width: 500px;
+    padding-bottom: 20px;
 }
 
 .top-right-floaty {
@@ -27,7 +30,7 @@
 
 .title-break .children {
     width: 100%;
-    background: lightgrey;
+    background: rgba(0,0,0,0.1);
     border-radius: 10px;
 }
 

@@ -10,6 +10,8 @@ const PaginationDisplay = (props: {itemsToDisplay: any[], cols: number, rows:num
     const totalPages = Math.ceil(itemsToDisplay.length/numbPerPage);
     const itemsForThisPage=itemsToDisplay.slice((currPage)*numbPerPage, (currPage+1)*numbPerPage);
 
+    if (itemsForThisPage.length === 0 && totalPages >= 1) setCurrPage(currPage-1);
+
     const changePageWithinLimits = (incr: number) => {
         if (incr > 0) {
             setCurrPage((currPage+1)%totalPages);

@@ -1,26 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {Betslip} from "../../common/Betslip";
 import TitleBreak from "../../common/TitleBreak";
 import LeagueCheckBoxes from "../../common/LeagueCheckBoxes";
 import PaginationDisplay from "./PaginationDisplay";
 import {backendUrl} from "../../config";
 import {GameEntity} from "../../entities/GameEntity";
 import {CountriesEntity} from "../../entities/CountriesEntity";
-import Filters from "../performance-page/Filters";
 import SubtitleWithContent from "../../common/SubtitleWithContent";
 import BetslipWithHeader from "../landing-page/BetslipWithHeader";
 import Button from "react-bootstrap/Button";
-import {Gear, X, XLg} from "react-bootstrap-icons";
+import {Gear, XLg} from "react-bootstrap-icons";
 
-const PredictionPage = (props: any) => {
+const PredictionPage = () => {
     const [currLeagues, setCurrLeagues] = useState<CountriesEntity>({"EPL": true, "BUNDESLIGA": true, "LA_LIGA": true, "LIGUE_1": true, "RUSSIA": true, "SERIE_A": true});
     const [predictions, setPredictions] = useState<GameEntity[]>([]);
     const [showFilters, setShowFilters] = useState(false);
     const [cols, setCols] = useState(getRecommendedColumns(window.innerWidth));
 
-    const subtitle = "Here are the latest recommendations from our AI, calculated by analysing over 10,000 previous games across the last 5 seasons." +
+    const subtitle = "Here are the latest recommendations from the AI. " +
         "The 'Bets we Recommend' section highlights all predictions where we think there's a bet worth taking, along with a recommended stake." +
-        "The 'All Predictions' section shows all games our AI predicted on and how our prediction compares to those offered by the bookies."
+        "The 'All Predictions' section shows all games the AI predicted on and how the prediction compares to the odds offered by the bookies."
 
     useEffect(() => {
         getPredictions();

@@ -1,10 +1,9 @@
 import React from 'react';
 import LandingPage from "./intro/landing-page/LandingPage";
 
-const HomePage = (props: any) => (
+const HomePage = () => (
     <main>
         <LandingPage />
-
     </main>
 );
 

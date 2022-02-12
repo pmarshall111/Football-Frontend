@@ -66,7 +66,7 @@ class DateSlider extends React.Component<IDateSlider> {
             .text(d3.timeFormat("%a %e %b %Y")(dateExtremes.startDate))
             .attr("x", 0)
             .attr("y", -20)
-            .attr("fill", "black")
+            .attr("fill", "white")
             .attr("font-size", "10px")
             .attr("text-anchor", "middle");
 
@@ -80,7 +80,7 @@ class DateSlider extends React.Component<IDateSlider> {
             .text(d3.timeFormat("%a %e %b %Y")(new Date()))
             .attr("x", width)
             .attr("y", 30)
-            .attr("fill", "black")
+            .attr("fill", "white")
             .attr("font-size", "10px")
             .attr("text-anchor", "middle");
 
@@ -109,7 +109,7 @@ class DateSlider extends React.Component<IDateSlider> {
         function determineClosestHandle(classThis: any) {
             return function() {
                 // @ts-ignore
-                let [x,y] = d3.mouse(this);
+                let [x] = d3.mouse(this);
                 x -= margin.left;
                 let diffStart = Math.abs(x - classThis.startHandle.attr("cx"));
                 let diffEnd = Math.abs(x - classThis.endHandle.attr("cx"));
@@ -120,7 +120,7 @@ class DateSlider extends React.Component<IDateSlider> {
         function moveClosestHandle(classThis: any) {
             return function() {
                 // @ts-ignore
-                let [x,y] = d3.mouse(this);
+                let [x] = d3.mouse(this);
                 let xOnSvg = x-margin.left;
                 //logic to ensure cannot go out of bounds and does not overlap other handle.
                 xOnSvg = Math.max(0, xOnSvg);
