@@ -1,0 +1,28 @@
+.betType_check_container {
+    display: grid;
+    place-items: center;
+    padding: 20px 0 40px 0;
+}
+
+.betType_check_boxes {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 40px;
+}
+
+.betType_title_container {
+    display: grid;
+    grid-template-columns: auto;
+    place-items: center;
+}
+
+.betType_title {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    place-items: center;
+}
+
+.betType_title * {
+    margin-bottom: 0.5rem;
+}

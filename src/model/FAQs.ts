@@ -9,9 +9,14 @@ export const faqs: {question: string, answer: string}[] = [{
     question: "How are the probabilities from the bookies calculated?",
     answer: "You can do 1/(decimal odds) to get their probability of the result. i.e. odds of 2.37,3.5,2.9 have probabilities of 42%,29%,34%. If you add them all together, you'll see that the total probability offered by " +
         "the bookies comes to ~105% rather than 100%. This extra 5% margin is how they make money."
-}, {
+},{
     question: "Why are there no predictions early on in the season?",
     answer: "The model uses almost no data from previous seasons (only using the H2H results from past seasons). Because of this, it can take a number of games " +
         "for the statistics to accurately reflect team performance. I've therefore stopped the model from predicting in the first 12 games to account for the innaccuracy of early matches. Note as well that " +
         " the model will provide more accurate predictions the further on into a season we go."
+},{
+    question: "What is the difference between a bet and a lay bet?",
+    answer: "A lay bet is a bet where you provide odds for other people to bet on - in this situation you effectively act as a bookie." +
+        " This can be done via an exchange. The alternative is a regular bet, where you bet on odds the bookies provide. The types of bet shown " +
+        "on each page can be filtered if you don't wish to view lay bets."
 }]

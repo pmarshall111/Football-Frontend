@@ -10,11 +10,14 @@ import {CountriesEntity} from "../../entities/CountriesEntity";
 import TitleBreak from "../../common/TitleBreak";
 import Button from "react-bootstrap/Button";
 import {Gear, XLg} from "react-bootstrap-icons";
+import {BetTypeEntity} from "../../entities/BetTypeEntity";
+import {DateLimitEntity} from "../../entities/DateLimitEntity";
 
-const PerformancePage = (props: any) => {
+const PerformancePage = () => {
     const [showFilters, setShowFilters] = useState(false);
-    const [currDates, setCurrDates] = useState({startDate: new Date(2019,7,1), endDate: new Date()});
+    const [currDates, setCurrDates] = useState<DateLimitEntity>({startDate: new Date(2019,7,1), endDate: new Date()});
     const [currLeagues, setCurrLeagues] = useState<CountriesEntity>({"EPL": true, "BUNDESLIGA": true, "LA_LIGA": true, "LIGUE_1": true, "RUSSIA": true, "SERIE_A": true});
+    const [betTypes, setBetTypes] = useState<BetTypeEntity>({"Back Bet": true, "Lay Bet": true});
     const [historicBets, setHistoricBets] = useState<GameEntity[]>([]);
 
     useEffect(() => {
@@ -31,11 +34,13 @@ const PerformancePage = (props: any) => {
 
     const betsToShow = historicBets.filter(x => {
         const {kickOff, league} = x;
+        const isLayBet = x.bet.layBet;
         let kickOffDate = new Date(kickOff)
         const isGoodDate = kickOffDate >= currDates.startDate && kickOffDate <= currDates.endDate;
         // @ts-ignore
         const isGoodLeague = currLeagues[league];
-        return isGoodDate && isGoodLeague;
+        const isGoodBetType = isLayBet ? betTypes['Lay Bet'] : betTypes['Back Bet'];
+        return isGoodDate && isGoodLeague && isGoodBetType;
     })
     let totalProfit = 0;
     let totalOut = 0;
@@ -44,18 +49,27 @@ const PerformancePage = (props: any) => {
     const series = betsToShow.map(x => {
         const {homeScore, awayScore, bet, prediction} = x;
         const {home,draw,away} = prediction.bookieOdds;
-        const {stake, resultBetOn} = bet;
-        let winLoss = 0;
+        const {stake, resultBetOn, layBet, liability} = bet;
+        let winLoss;
         let result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
         let odds = [home,draw,away];
-        if (result == resultBetOn) {
-            betsWon++;
-            winLoss = stake*odds[resultBetOn] - stake;
-            totalIn += stake*odds[resultBetOn];
-            totalOut += stake;
+        totalOut += stake;
+        if (!layBet) {
+            if (result == resultBetOn) {
+                betsWon++;
+                winLoss = stake*odds[resultBetOn] - stake;
+                totalIn += stake*odds[resultBetOn];
+            } else {
+                winLoss = -stake;
+            }
         } else {
-            winLoss = -stake;
-            totalOut += stake;
+            if (result == resultBetOn) {
+                winLoss = -liability + stake;
+            } else {
+                betsWon++;
+                winLoss = stake;
+                totalIn += 2*stake;
+            }
         }
         totalProfit += winLoss;
         return {date: new Date(x.kickOff), winLoss };
@@ -75,10 +89,12 @@ const PerformancePage = (props: any) => {
                     </Button>
                 </div>
                 <div className={`perf-filters ${showFilters ? "show" : ""}`}>
-                    <Filters updateDates={(obj: {startDate: Date, endDate: Date}) => setCurrDates(obj)}
+                    <Filters updateDates={(obj: DateLimitEntity) => setCurrDates(obj)}
                              updateLeagues={(obj: CountriesEntity) => setCurrLeagues(obj)}
+                             updateBetTypes={(obj: BetTypeEntity) => setBetTypes(obj)}
                              currLeagues={currLeagues}
                              dateExtremes={currDates}
+                             betTypes={betTypes}
                     />
                 </div>
             </TitleBreak>

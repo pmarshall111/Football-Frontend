@@ -19,7 +19,9 @@ export type PredictionEntity = {
 export type BetEntity = {
     resultBetOn: number,
     stake: number,
-    odds: number
+    odds: number,
+    layBet: boolean,
+    liability: number
 }
 
 export type HomeDrawAwayEntity = {

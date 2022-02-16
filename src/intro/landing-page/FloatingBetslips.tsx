@@ -1,10 +1,9 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card'
 import BetslipWithHeader from "./BetslipWithHeader";
 
 import "./FloatingBetslips.css"
 
-const FloatingBetslips = (props:any) => {
+const FloatingBetslips = () => {
     const slips = [
         {
             date: new Date().toDateString(),
@@ -14,17 +13,21 @@ const FloatingBetslips = (props:any) => {
             bookiePredictions: [0.2,0.3,0.5],
             betOn: 0,
             result: 0,
-            stake: 5
+            stake: 5,
+            layBet: false,
+            liability: 0
         },
         {
             date: new Date().toDateString(),
             teams: ["Southampton", "Leicester"],
             odds: [5.1,4.1,2.2],
-            ourPredictions: [0.45,0.2,0.25],
+            ourPredictions: [0.35,0.4,0.25],
             bookiePredictions: [0.2,0.3,0.5],
-            betOn: 0,
+            betOn: 2,
             result: 0,
-            stake: 15.5
+            stake: 5.5,
+            layBet: true,
+            liability: 12.10
         },
         {
             date: new Date().toDateString(),
@@ -34,15 +37,27 @@ const FloatingBetslips = (props:any) => {
             bookiePredictions: [0.2,0.3,0.5],
             betOn: 2,
             result: 2,
-            stake: 3.5
+            stake: 3.5,
+            layBet: false,
+            liability: 0
         }
     ];
     let jsxSlips = slips.map((x: any, i:number) => {
-        const {date, teams, odds, betOn, result, stake, ourPredictions, bookiePredictions} = x;
+        const {date, teams, odds, betOn, result, stake, ourPredictions, bookiePredictions, layBet, liability} = x;
         return (
             <div className={"floating-slip floating-slip-"+i} key={"slip-"+i}>
-                <BetslipWithHeader date={date} teams={teams} odds={odds} betOn={betOn} result={result} stake={stake}
-                                   ourPredictions={ourPredictions} bookiePredictions={bookiePredictions} />
+                <BetslipWithHeader
+                    date={date}
+                    teams={teams}
+                    odds={odds}
+                    betOn={betOn}
+                    result={result}
+                    stake={stake}
+                    ourPredictions={ourPredictions}
+                    bookiePredictions={bookiePredictions}
+                    isLayBet={layBet}
+                    liability={liability}
+                />
             </div>
     )
     });

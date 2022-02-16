@@ -7,7 +7,7 @@
 .league_check_container {
     display: grid;
     place-items: center;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .league_check_selector:hover, .league_check_selector *:hover {

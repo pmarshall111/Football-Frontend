@@ -26,3 +26,20 @@
     border-radius: 10px;
     width: 100%;
 }
+
+.betslip_title_container {
+    display: grid;
+    grid-template-columns: auto;
+    place-items: center;
+}
+
+.betslip_title {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 5px;
+    place-items: center;
+}
+
+.betslip_title svg {
+    height: 66%
+}
