@@ -6,14 +6,14 @@ import "./QuestionsDisplay.css"
 import {faqs} from '../../model/FAQs'
 import Card from "react-bootstrap/cjs/Card";
 
-const QuestionsDisplay = (props: any) => {
+const QuestionsDisplay = () => {
     const faqSections = faqs.map((x, idx) => {
         return (
             <Card key={x.question}>
-                <Accordion.Toggle as={Card.Header} eventKey={idx+""}>
+                <Accordion.Toggle as={Card.Header} eventKey={idx+""} style={{"font-weight": "bold"}}>
                     {x.question}
                 </Accordion.Toggle>
-                <Accordion.Collapse eventKey={idx+""}>
+                <Accordion.Collapse eventKey={idx+""} style={{"whiteSpace": "pre-line"}}>
                     <Card.Body>{x.answer}</Card.Body>
                 </Accordion.Collapse>
             </Card>

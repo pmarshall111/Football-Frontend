@@ -14,7 +14,7 @@ const BetslipWithHeader = (props: BetslipProps) => {
             if (isLayBet) {
                 titleText = "New Lay Bet!"
                 helpText = LayBetDefinition;
-                backgroundColour = "#aeff70";
+                backgroundColour = "#cfffab";
             }
             else {
                 titleText = "New Back Bet!"

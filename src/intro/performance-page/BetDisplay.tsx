@@ -22,7 +22,7 @@ const BetDisplay = (props: any) => {
             <div
                 className={"bet-in-scroller"}
                 style={{backgroundColor: currMatch.idx == idx ? highlightedBgColour : ""}}
-                onMouseEnter={() => updateMatch({idx, from:"bets"})} id={`betslip-${idx}`} key={"slip" + x.homeTeam + x.kickOff}
+                onMouseEnter={() => updateMatch({idx, from:"bets"})} id={`betslip-${idx}`} key={"slip" + x.homeTeam + x.kickOff + idx}
             >
             <Betslip
                 date={new Date(x.kickOff).toDateString()}
