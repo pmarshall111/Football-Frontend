@@ -3,13 +3,15 @@ import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import {ArrowDown, ArrowUp} from "react-bootstrap-icons";
 
 const getPredictionColour = (pred: number) => {
-    if (pred > 15) return "#a0ff33"
-    else if (pred > 10) return '#c4ff80'
+    if (pred > 20) return "#a0ff33"
+    else if (pred > 15) return "#b8ff66";
+    else if (pred > 10) return '#cfff99'
     else if (pred > 5) return '#e7ffcc'
     else if (pred > 0) return '#f3ffe6'
     else if (pred > -5) return '#ffe6e6'
     else if (pred > -10) return '#ffcccc'
-    else if (pred > -15) return '#ff8080'
+    else if (pred > -15) return '#ff9999'
+    else if (pred > -20) return '#ff6666'
     else return '#ff3333'
 }
 
