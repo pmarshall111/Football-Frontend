@@ -35,7 +35,7 @@ export const Betslip = (props: BetslipProps) => {
                 <div className={"grid3col"}>
                     {improvements}
                 </div>
-                {stake > 0 && <div className={"moneyBox"}>
+                {stake > 0 && <div className={`moneyBox ${isLayBet ? "layBet" : ""}`}>
                     {!isLayBet && <h5>Recommendation! £{stakeStr} on {bet[betOn]}. Returns: £{toReturn}</h5>}
                     {isLayBet && <h5>Lay Recommendation! £{stakeStr} on {bet[betOn]}. Returns: £{stakeStr}. Liability: -£{liabilityStr}</h5>}
                 </div>}

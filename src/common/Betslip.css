@@ -32,6 +32,10 @@
     border-radius: 10px;
 }
 
+.moneyBox.layBet {
+    background-color: #ebffde;
+}
+
 .percentages-use-full-width {
     grid-column: 1 / span 2;
     display: grid;
