@@ -42,38 +42,7 @@ const PerformancePage = () => {
         const isGoodBetType = isLayBet ? betTypes['Lay Bet'] : betTypes['Back Bet'];
         return isGoodDate && isGoodLeague && isGoodBetType;
     })
-    let totalProfit = 0;
-    let totalOut = 0;
-    let totalIn = 0;
-    let betsWon = 0;
-    const series = betsToShow.map(x => {
-        const {homeScore, awayScore, bet, prediction} = x;
-        const {home,draw,away} = prediction.bookieOdds;
-        const {stake, resultBetOn, layBet, liability} = bet;
-        let winLoss;
-        let result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
-        let odds = [home,draw,away];
-        totalOut += stake;
-        if (!layBet) {
-            if (result == resultBetOn) {
-                betsWon++;
-                winLoss = stake*odds[resultBetOn] - stake;
-                totalIn += stake*odds[resultBetOn];
-            } else {
-                winLoss = -stake;
-            }
-        } else {
-            if (result == resultBetOn) {
-                winLoss = -liability + stake;
-            } else {
-                betsWon++;
-                winLoss = stake;
-                totalIn += 2*stake;
-            }
-        }
-        totalProfit += winLoss;
-        return {date: new Date(x.kickOff), winLoss };
-    });
+    const {series, totalIn, totalOut, totalProfit, betsWon} = calcProfitCreateDataForChart(betsToShow)
     console.log({totalIn, totalOut, totalProfit, betsWon, totalBets: betsToShow.length, betPercWon: 100*betsWon/betsToShow.length})
     const [currMatch, setCurrMatch] = useState({idx: Math.max(0,series.length-1), from: "line"}); //from attribute to stop BetDisplay from scrolling when user hovers
     updateCurrMatchIndexIfOutOfRange(currMatch, setCurrMatch, series);
@@ -131,6 +100,43 @@ const getMonthsBetweenDates = (startDate: Date, endDate: Date) => {
     let monthsYears = (endDate.getFullYear() - startDate.getFullYear()) * 12;
     let months = endDate.getMonth() - startDate.getMonth();
     return Math.max(1,monthsYears+months);
+}
+
+const calcProfitCreateDataForChart = (betsToShow: GameEntity[]) => {
+    let totalProfit = 0;
+    let totalOut = 0;
+    let totalIn = 0;
+    let betsWon = 0;
+    const series = betsToShow.map(x => {
+        const {homeScore, awayScore, bet, prediction} = x;
+        const {home,draw,away} = prediction.bookieOdds;
+        const {stake, resultBetOn, layBet, liability} = bet;
+        let winLoss;
+        let result = homeScore > awayScore ? 0 : homeScore == awayScore ? 1 : 2;
+        let odds = [home,draw,away];
+        totalOut += stake;
+        if (!layBet) {
+            if (result == resultBetOn) {
+                betsWon++;
+                winLoss = stake*odds[resultBetOn] - stake;
+                totalIn += stake*odds[resultBetOn];
+            } else {
+                winLoss = -stake;
+            }
+        } else {
+            if (result == resultBetOn) {
+                winLoss = -liability;
+                totalOut += (liability - stake);
+            } else {
+                betsWon++;
+                winLoss = stake;
+                totalIn += 2*stake;
+            }
+        }
+        totalProfit += winLoss;
+        return {date: new Date(x.kickOff), winLoss };
+    });
+    return {series, totalProfit, totalIn, totalOut, betsWon};
 }
 
 export default PerformancePage;
